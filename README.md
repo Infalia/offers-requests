@@ -43,3 +43,10 @@ After creating the project's database, you should run the commands below to crea
 $ php artisan migrate
 $ php artisan db:seed
 ```
+
+## Administration
+In order to log into administration panel it's necessary to create an administrator. Run the command below and then go to {YOUR_DOMAIN}/cms.
+
+```
+php artisan administrator:create
+```
