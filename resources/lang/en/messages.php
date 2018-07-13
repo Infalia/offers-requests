@@ -59,7 +59,7 @@
 
         /*** GENERIC VALIDATION SUCCESS MESSAGES ***/
         'initiative_form_success' => [
-            'stored' => 'Your initiative has been saved successfully!',
+            'stored' => 'Your offer/request has been saved successfully!',
         ],
         'profile_form_success' => [
             'stored' => 'Your data have been saved successfully!',
@@ -98,7 +98,7 @@
         'initiatives_btn_1' => 'show on map',
         'initiatives_btn_2' => 'Comment',
         'initiatives_btn_3' => 'Post an offer/request',
-        'initiatives_msg_1' => 'There are no initiatives yet',
+        'initiatives_msg_1' => 'There are no offers and requests yet',
         'initiative_comment_singular' => 'comment',
         'initiative_comment_plural' => 'comments',
 
