@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'create'        => 'Create',
+    'create_item'   => 'Create :resource',
+    'edit'          => 'Modifica',
+    'view'          => 'Visualizza',
+    'delete'        => 'Cancella',
+    'save'          => 'Salva',
+    'reset'         => 'Reset',
+    'save_return'   => 'Save & Return',
+    'save_create'   => 'Save & Create new',
+    'download'      => 'Scarica',
+    'search'        => 'Cerca',
+    'remember_me'   => 'Remember me',
+    'sign_in'       => 'Accedi',
+    'logout'        => 'Logout',
+    'batch_actions' => 'Azioni',
+    'clear_filters' => 'Clear',
+    'media' => 'Media',
+    'translations' => 'Translations',
+    'upload' => 'Carica',
+    'next' => 'Successivo',
+    'previous' => 'Precedente',
+];
