@@ -68,7 +68,7 @@
                         <div class="col s12 xl6">
                             <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&lat=45.07030799911259&lon=7.686824798583985&zoom=14&mode=lite"></iframe>
                             
-                            <div class="helper">
+                            <div class="helper hide">
                                 <h2 class="h6"><u>Area Info</u></h2>
                                 <ul>
                                     <li><b>Name:</b> <span id="name"></span></li>
@@ -97,10 +97,8 @@
                                     <li><b>Address:</b> <span id="address"></span></li>
                                 </ul>
                             </div>
-                        </div>
-
-
-                        <div class="col s12">
+                            
+                            <br><br>
                             <div class="dropzone-wrapper">
                                 <div id="init-dropzone" class="dropzone">
                                     <div class="dz-message">
@@ -116,6 +114,24 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <!--<div class="col s12">
+                            <div class="dropzone-wrapper">
+                                <div id="init-dropzone" class="dropzone">
+                                    <div class="dz-message">
+                                        <h6 class="h5">Drop images in this area</h6>
+                                        <i class="material-icons">file_upload</i>
+                                    </div>
+
+                                    <div class="fallback">
+                                        <input name="files" type="file" multiple />
+                                    </div>
+
+                                    <div class="dropzone-previews" id="dropzonePreview"></div>
+                                </div>
+                            </div>
+                        </div>-->
 
 
                         <div class="col s12">

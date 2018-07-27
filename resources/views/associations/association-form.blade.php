@@ -79,7 +79,7 @@
                         <div class="col s12 xl6">
                             <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&mode=lite @if('update' == $mode)&lat={{ $latitude }}&lon={{ $longitude }}&zoom=14&state=edit @endif"></iframe>
                             
-                            <div class="helper">
+                            <div class="helper hide">
                                 <h2 class="h6"><u>Area Info</u></h2>
                                 <ul>
                                     <li><b>Name:</b> <span id="name"></span></li>
