@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="col s12 l6">
-                        <iframe class="input-map input-map-areaviewer" title="input a location" src="{{ env('AREAVIEWER_URL') }}?domain={{ config('app.url') }}&lat={{ $initiative->latitude }}&lon={{ $initiative->longitude }}&zoom=14&state=view&mode=lite"></iframe>
+                        <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&lat={{ $initiative->latitude }}&lon={{ $initiative->longitude }}&zoom=14&state=view&mode=lite"></iframe>
                     </div>
                 </div>
 

@@ -65,12 +65,20 @@
                                                 @endisset
                                             </ul>
                                         </div>
+
+                                        @if(!empty($association->tags))
+                                        <div class="card-assoc-contacts card-assoc-tags">
+                                            @foreach ($association->tags as $tag)
+                                            <div class="chip">{{ $tag->name }}</div>
+                                            @endforeach
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
 
 
                                 <div class="right-align">
-                                    <a class="waves-effect waves-light btn modal-trigger" href="{{ url('association/'.$association->id.'/'.str_slug($association->title)) }}">{{ $detailsBtn }}</a>
+                                    <a class="waves-effect waves-light btn" href="{{ url('association/'.$association->id.'/'.str_slug($association->title)) }}">{{ $detailsBtn }}</a>
                                 </div>
                             </div>
 

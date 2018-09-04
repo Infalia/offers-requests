@@ -59,7 +59,7 @@
                         </div>
 
 
-                        <iframe class="input-map input-map-areaviewer" title="input a location" src="{{ env('AREAVIEWER_URL') }}?domain={{ config('app.url') }}&lat={{ $association->latitude }}&lon={{ $association->longitude }}&zoom=14&state=view&mode=lite"></iframe>
+                        <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&lat={{ $association->latitude }}&lon={{ $association->longitude }}&zoom=14&state=view&mode=lite"></iframe>
 
 
                         @isset($association->description)
@@ -77,6 +77,15 @@
                                     {!! HTML::image('storage/associations/'.$image->name, $association->title, array('class' => '')) !!}
                                 </a>
                             </div>
+                            @endforeach
+                        </div>
+                        @endif
+
+
+                        @if(!empty($association->tags))
+                        <div class="tags">
+                            @foreach ($association->tags as $tag)
+                            <div class="chip">{{ $tag->name }}</div>
                             @endforeach
                         </div>
                         @endif
