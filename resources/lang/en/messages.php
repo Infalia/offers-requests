@@ -131,6 +131,11 @@
         'association_form_heading_3' => 'Services',
         'association_form_heading_4' => 'Details',
 
+
+        /* FOOTER */
+        'footer_link_1' => 'Terms of use',
+        'footer_link_2' => 'Data privacy statement',
+
         
         /* ADMIN */
         'initiative_title_singular' => 'post',
