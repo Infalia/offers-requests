@@ -1,8 +1,8 @@
 <footer class="page-footer grey darken-3">
     <div class="container">
-        <a class="grey-text text-lighten-5" href="https://southwark.liquidfeedback.net/static/wegovnow/southwark/terms_of_use.pdf" target="_blank">{{ trans('messages.footer_link_1') }}</a>
+        <a class="grey-text text-lighten-5" href="{{ env('FOOTER_LINK_1') }}" target="_blank">{{ trans('messages.footer_link_1') }}</a>
         -
-        <a class="grey-text text-lighten-5" href="https://southwark.liquidfeedback.net/static/wegovnow/southwark/privacy.pdf" target="_blank">{{ trans('messages.footer_link_2') }}</a>
+        <a class="grey-text text-lighten-5" href="{{ env('FOOTER_LINK_2') }}" target="_blank">{{ trans('messages.footer_link_2') }}</a>
     </div>
     <br>
 </footer>
