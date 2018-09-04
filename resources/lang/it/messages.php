@@ -130,6 +130,11 @@
         'association_form_heading_2' => 'Modifica l\'associazione',
         'association_form_heading_3' => 'Servizi',
 
+
+        /* FOOTER */
+        'footer_link_1' => 'Condizioni d\'uso',
+        'footer_link_2' => 'Data privacy statement',
+
         
         /* ADMIN */
         'initiative_title_singular' => 'post',
