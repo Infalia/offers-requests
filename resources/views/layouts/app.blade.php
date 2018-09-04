@@ -19,6 +19,10 @@
 
         @yield('content')
 
+        @section('footer')
+            @include('partials.footer')
+        @show
+
         {!! HTML::script('js/app.js') !!}
         <script>
             // Automatically add the token to all AJAX request headers
