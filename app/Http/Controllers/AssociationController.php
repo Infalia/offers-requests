@@ -38,7 +38,9 @@ class AssociationController extends Controller
                                    ->orderBy('id', 'desc')
                                    ->first();
 
-            $userTagIds = array_pluck($userInitiative->tags->toArray(), 'id');
+            if(!empty($userInitiative)) {
+                $userTagIds = array_pluck($userInitiative->tags->toArray(), 'id');
+            }
         }
 
 
@@ -92,7 +94,7 @@ class AssociationController extends Controller
             ->with('userTagIds', $userTagIds);
     }
 
-    function association($id)
+    function association(Request $request, $id)
     {
         $user = User::find(Auth::id());
 
@@ -100,6 +102,13 @@ class AssociationController extends Controller
             $association = Association::findOrFail($id);
             $route = Route::current();
 
+            $isAssociation = false;
+
+            if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {
+                $isAssociation = true;
+            }
+
+            $userTagIds = array();
 
             if(Auth::check()) {
                 $user = User::find(Auth::id());
@@ -107,8 +116,9 @@ class AssociationController extends Controller
                                        ->has('tags')
                                        ->orderBy('id', 'desc')
                                        ->first();
-    
-                $userTagIds = array_pluck($userInitiative->tags->toArray(), 'id');
+                if(!empty($userInitiative)) {
+                    $userTagIds = array_pluck($userInitiative->tags->toArray(), 'id');
+                }
             }
 
             
@@ -147,6 +157,7 @@ class AssociationController extends Controller
                 ->with('associationId', $id)
                 ->with('isRelated', $isRelated)
                 ->with('user', $user)
+                ->with('isAssociation', $isAssociation)
                 ->with('routeUri', $route->uri);
 
         } catch(ModelNotFoundException $e) {

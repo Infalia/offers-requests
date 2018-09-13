@@ -12,7 +12,7 @@
             <div class="association">
                 @if(!empty($association))
                 
-                    @if(Auth::check() && Auth::id() == $association->user->id)
+                    @if(Auth::check() && Auth::id() == $association->user->id && $isAssociation)
                     <div class="action-buttons">
                         <a class="waves-effect waves-light btn" href="{{ url('association/register') }}"><i class="material-icons left">edit</i>{{ $editBtn }}</a>
                         {!! Form::button('<i class="material-icons left">delete</i>'.$deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}

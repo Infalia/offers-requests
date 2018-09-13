@@ -8,13 +8,6 @@
             <div class="row">
                 <div class="col m8">
                     <div class="row">
-                        @if(Auth::check())
-                        <div class="col s12 action-buttons right-align">
-                            <a class="waves-effect waves-light btn" href="{{ url('offer/new') }}"><i class="material-icons left">add</i> {{ $postBtn }}</a>
-                        </div>
-                        @endif
-
-
                         <div class="col s12 l6 xl4">
                             <div class="card">
                                 
