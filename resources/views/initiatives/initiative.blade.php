@@ -17,9 +17,9 @@
                 
                 <div class="row">
                     @if(Auth::check() && Auth::id() == $initiative->user->id)
-                    <div class="col s12 right-align" style="margin-bottom: 10px;">
-                        <a class="waves-effect waves-light btn" href="{{ url('offer/edit/'.$initiative->id.'/'.str_slug($initiative->title)) }}">{{ $editBtn }}</a>
-                        {!! Form::button($deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}
+                    <div class="col s12 right-align action-buttons">
+                        <a class="waves-effect waves-light btn" href="{{ url('offer/edit/'.$initiative->id.'/'.str_slug($initiative->title)) }}"><i class="material-icons left">edit</i>{{ $editBtn }}</a>
+                        {!! Form::button('<i class="material-icons left">delete</i>'.$deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}
                     </div>
                     @endif
 
@@ -27,10 +27,21 @@
                         <h1 class="h5 initiative-title">{{ $initiative->title }}</h1>
 
                         <div class="initiative-info">
-                            <span class="initiative-type">{{ $initiative->initiativeType->name }}</span>
                             <span class="initiative-created grey-text text-darken-1">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $initiative->created_at)->diffForHumans() }}</span>
                             <span>- by {{ $initiative->user->name }}</span>
                         </div>
+
+                        <p>
+                            @if(1 == $initiative->initiativeType->id)
+                            <div class="chip green accent-4 white-text">{{ $initiative->initiativeType->name }}</div>
+                            @else
+                            <div class="chip light-blue white-text">{{ $initiative->initiativeType->name }}</div>
+                            @endif
+
+                            @if(1 >= $diffLength)
+                            <div class="chip chip-ends red accent-4 white-text">{{ $message2 }}</div>
+                            @endif
+                        </p>
 
                         <div class="initiative-info">
                             @isset($initiative->start_date)
@@ -58,6 +69,13 @@
                                 </a>
                             </div>
                             @endforeach
+                        </div>
+                        @endif
+
+
+                        @if(Auth::check())
+                        <div class="action-buttons">
+                        {!! Form::button('<i class="material-icons left">email</i>'.$contactBtn, array('id' => 'contact-btn', 'class' => 'btn waves-effect waves-light light-blue darken-4', 'onclick' => '')) !!}
                         </div>
                         @endif
                     </div>

@@ -3,6 +3,7 @@
 @section('csslibs')
     {!! HTML::style('plugins/dropzone/dropzone.css') !!}
     {!! HTML::style('plugins/datepicker/datepicker.min.css') !!}
+    {!! HTML::style('plugins/tokenize/tokenize2.min.css') !!}
     {!! HTML::style('plugins/owl/assets/owl.carousel.min.css') !!}
     {!! HTML::style('plugins/owl/assets/owl.theme.green.min.css') !!}
 @endsection
@@ -55,10 +56,10 @@
                                 <div class="col s12">
                                     <div class="input-field">
                                         {!! Form::label('tags', $tagsLbl, ['class' => 'active']) !!}
-                                        <select id="tags" multiple>
-                                            <option value="" disabled selected>{{ $tagsPldr }}</option>
+
+                                        <select id="tags" class="hide" multiple>
                                             @foreach($tags as $tag)
-                                                <option value="{{ $tag->id }}" @php if(in_array($tag->id, $initiativeTagIds)) { echo 'selected'; } @endphp>{{ $tag->name }}</option>
+                                                <option value="{{ $tag->id }}" @if(in_array($tag->id, $initiativeTags)) {{ 'selected' }} @endif>{{ $tag->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -80,8 +81,8 @@
 
                                 <h3 class="h6"><u>Area Info</u></h3>
                                 <ul>
-                                    <li><b>Latitude:</b> <span id="lat"></span></li>
-                                    <li><b>Longitude:</b> <span id="lon"></span></li>
+                                    <li><b>Latitude:</b> <span id="lat">{{ $initiativeLatitude }}</span></li>
+                                    <li><b>Longitude:</b> <span id="lon">{{ $initiativeLongitude }}</span></li>
                                     <li><b>Zoom:</b> <span id="zoom"></span></li>
                                 </ul>
                                 
@@ -94,7 +95,7 @@
 
                                 <h4 class="h6"><u>Address</u></h4>
                                 <ul>
-                                    <li><b>Display Name:</b> <span id="display-name"></span></li>
+                                    <li><b>Display Name:</b> <span id="display-name">{{ $initiativeAddress }}</span></li>
                                     <li><b>Address:</b> <span id="address"></span></li>
                                 </ul>
                             </div>
@@ -143,7 +144,7 @@
                         <div id="response" class="hide">
                             <div id="response-msg"></div>
                             <p id="response-backlink"></p>
-                            <div id="response-related-assocs"></div>
+                            {{-- <div id="response-related-assocs"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -184,6 +185,7 @@
     {!! HTML::script('plugins/datepicker/datepicker.min.js') !!}
     {!! HTML::script('plugins/datepicker/i18n/datepicker.en.js') !!}
     {!! HTML::script('plugins/dropzone/dropzone.min.js') !!}
+    {!! HTML::script('plugins/tokenize/tokenize2.min.js') !!}
     {!! HTML::script('plugins/owl/owl.carousel.min.js') !!}
 
     <script>
@@ -340,6 +342,18 @@
 
 
 
+        $('#tags').tokenize2({
+            dataSource: 'select',
+            placeholder: '{{ $tagsPldr }}',
+            tokensAllowCustom: false,
+            searchMinLength: 2,
+            searchFromStart: false,
+            tokensMaxItems: 15
+        });
+
+
+
+
         // PC form fields keypress
         $(document).on("keypress", "#title", function(e) {
             if(e.which == 13) {
@@ -364,7 +378,8 @@
             data['address'] = $('#display-name').text();
             data['input_map_data'] = "{'areaId':'"+$('#id').text()+"','areaName':'"+$('#name').text()+"','osmId':'"+$('#osmid').text()+"','type':'"+$('#type').text()+"','zoom':'"+$('#zoom').text()+"','src':'"+$('#src').text()+"','tileId':'"+$('#tileid').text()+"','tile':'"+$('#tile').text()+"','address':'"+$('#address').text()+"'}";
             data['tags'] = $('#tags').val();
-            
+
+
 
             var url = "{{ url('offer/update/'.$initiative->id) }}";
 
@@ -426,7 +441,7 @@
                             $('#response').removeClass('hide');
                             $('#response-msg').text(data.message);
                             $('#response-backlink').html(data.backlink);
-                            $('#response-related-assocs').html(data.relatedAssociations);
+                            //$('#response-related-assocs').html(data.relatedAssociations);
                             $('.loader-overlay').fadeOut(0);
                         }, 2500);
                     }

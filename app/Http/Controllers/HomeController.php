@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     function index(Request $request) {
-        // Auth::loginUsingId(2);
+        Auth::loginUsingId(2);
         $isAssociation = false;
 
         if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {
@@ -24,9 +24,13 @@ class HomeController extends Controller
         $text1 = __('messages.home_text_1');
         $text2 = __('messages.home_text_2');
         $text3 = __('messages.home_text_3');
+        $text4 = __('messages.home_text_4');
+        $text5 = __('messages.home_text_5');
+        $text6 = __('messages.home_text_6');
         $link1 = __('messages.home_link_1');
         $link2 = __('messages.home_link_2');
         $link3 = __('messages.home_link_3');
+        $link4 = __('messages.home_link_4');
 
 
         return view('home.index')
@@ -38,9 +42,13 @@ class HomeController extends Controller
             ->with('text1', $text1)
             ->with('text2', $text2)
             ->with('text3', $text3)
+            ->with('text4', $text4)
+            ->with('text5', $text5)
+            ->with('text6', $text6)
             ->with('link1', $link1)
             ->with('link2', $link2)
             ->with('link3', $link3)
+            ->with('link4', $link4)
             ->with('isAssociation', $isAssociation);
     }
 }

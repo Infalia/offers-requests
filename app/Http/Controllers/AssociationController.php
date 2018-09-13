@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Tag;
+// use App\Initiative;
 use App\Association;
 use App\AssociationImage;
 use Illuminate\Http\Request;
@@ -16,19 +17,56 @@ use Illuminate\Database\QueryException;
 
 class AssociationController extends Controller
 {
-    function associations()
+    function associations(Request $request)
     {
+        $isAssociation = false;
+        $registerBtn = __('messages.associations_btn_2_1');
+        $registerIcon = 'add';
+
+        if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {
+            $isAssociation = true;
+            $registerBtn = __('messages.associations_btn_2_2');
+            $registerIcon = 'edit';
+        }
+
+
+        if(Auth::check()) {
+            $user = User::find(Auth::id());
+            $userInitiative = $user->initiatives()
+                                   ->has('tags')
+                                   ->orderBy('id', 'desc')
+                                   ->first();
+
+            $userTagIds = array_pluck($userInitiative->tags->toArray(), 'id');
+        }
+
+
         $pageTitle = __('messages.associations_page_title');
         $metaDescription = __('messages.associations_page_meta_description');
         $heading1 = __('messages.associations_heading_1');
         $heading2 = __('messages.associations_heading_2');
+        $heading3 = __('messages.associations_heading_3');
+        $message1 = __('messages.associations_msg_2');
+        $message2 = __('messages.associations_msg_3');
         $detailsBtn = __('messages.associations_btn_1');
         $editBtn = __('messages.form_edit_btn');
         $closeBtn = __('messages.close');
         $noRecordsMsg = __('messages.associations_msg_1');
 
 
-        $associations = association::where('is_published', 1)->orderBy('title', 'asc')->paginate(10);
+        $featuredAssociations = Association::where('is_published', 1)
+                                           ->whereHas('tags', function ($query) use ($userTagIds) {
+                                                $query->whereIn('id', $userTagIds);
+                                           })
+                                           ->orderBy('title', 'asc')
+                                           ->get();
+
+        $featuredAssociationsIds = array_pluck($featuredAssociations->toArray(), 'id');
+
+        $associations = Association::where('is_published', 1)
+                                   ->whereNotIn('id', $featuredAssociationsIds)
+                                   ->orderBy('title', 'asc')
+                                   ->paginate(20);
 
 
         return view('associations.associations')
@@ -36,11 +74,19 @@ class AssociationController extends Controller
             ->with('metaDescription', $metaDescription)
             ->with('heading1', $heading1)
             ->with('heading2', $heading2)
+            ->with('heading3', $heading3)
+            ->with('message1', $message1)
+            ->with('message2', $message2)
             ->with('detailsBtn', $detailsBtn)
             ->with('editBtn', $editBtn)
+            ->with('registerBtn', $registerBtn)
+            ->with('registerIcon', $registerIcon)
             ->with('closeBtn', $closeBtn)
             ->with('noRecordsMsg', $noRecordsMsg)
-            ->with('associations', $associations);
+            ->with('associations', $associations)
+            ->with('featuredAssociations', $featuredAssociations)
+            ->with('isAssociation', $isAssociation)
+            ->with('userTagIds', $userTagIds);
     }
 
     function association($id)
@@ -50,26 +96,53 @@ class AssociationController extends Controller
         try {
             $association = Association::findOrFail($id);
             $route = Route::current();
+
+
+            if(Auth::check()) {
+                $user = User::find(Auth::id());
+                $userInitiative = $user->initiatives()
+                                       ->has('tags')
+                                       ->orderBy('id', 'desc')
+                                       ->first();
+    
+                $userTagIds = array_pluck($userInitiative->tags->toArray(), 'id');
+            }
+
+            
+            $isRelated = false;
+
+            foreach($association->tags as $tag) {
+                if(in_array($tag->id, $userTagIds)) {
+                    $isRelated = true;
+                }
+            }
+            
+
             
             $pageTitle = $association->title.' - '.config('app.name');
             $metaDescription = '';
-            $heading1 = __('messages.association_form_heading_4');
+            $heading1 = __('messages.associations_heading_2');
+            $heading3 = __('messages.associations_heading_3');
             // $deleteConfirmMsg = __('messages.form_confirm_msg_1');
             $editBtn = __('messages.form_edit_btn');
             $deleteBtn = __('messages.form_delete_btn');
             $noRecordsMsg = __('messages.associations_msg_1');
+            $message1 = __('messages.associations_msg_4');
 
 
             return view('associations.association')
                 ->with('pageTitle', $pageTitle)
                 ->with('metaDescription', $metaDescription)
                 ->with('heading1', $heading1)
+                ->with('heading3', $heading3)
                 // ->with('deleteConfirmMsg', $deleteConfirmMsg)
                 ->with('editBtn', $editBtn)
                 ->with('deleteBtn', $deleteBtn)
                 ->with('noRecordsMsg', $noRecordsMsg)
+                ->with('message1', $message1)
                 ->with('association', $association)
                 ->with('associationId', $id)
+                ->with('isRelated', $isRelated)
                 ->with('user', $user)
                 ->with('routeUri', $route->uri);
 
@@ -82,17 +155,16 @@ class AssociationController extends Controller
 
     function associationForm(Request $request)
     {
-        if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
-            return redirect('404');
-        }
+        // if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
+        //     return redirect('404');
+        // }
 
 
 
         $user = User::find(Auth::id());
-        $tags = Tag::where('is_main', 1)->get();
+        $tags = Tag::all();
         $association = null;
-        $associationMainTagIds = array();
-        $associationSecondaryTagString = '';
+        $associationTags = array();
 
 
         $userId = null;
@@ -111,15 +183,7 @@ class AssociationController extends Controller
 
         if($user->association) {
             $association = $user->association;
-
-            $associationMainTags = $association->tags()->where('is_main', 1)->get()->toArray(); // Get only the main tags
-            $associationSecondaryTags = $association->tags()->where('is_main', 0)->get()->toArray(); // Get only the user added tags
-
-            $associationMainTagIds = array_pluck($associationMainTags, 'id'); // Export the main tag IDs
-            $associationSecondaryTagNames = array_pluck($associationSecondaryTags, 'name'); // Export the user added tag names
-            $associationSecondaryTagString = implode(', ', $associationSecondaryTagNames);
-
-
+            $associationTags = array_pluck($association->tags->toArray(), 'id');
 
             $title = $association->title;
             $phone = $association->phone_1;
@@ -154,6 +218,8 @@ class AssociationController extends Controller
         $otherLbl = __('messages.form_other_lbl');
         $otherPldr = __('messages.form_other_pldr');
         $servicesHeading = __('messages.association_form_heading_3');
+        $tagsLbl = __('messages.form_tags_lbl');
+        $tagsPldr = __('messages.form_tags_pldr');
         $imageUploadFileSizeMsg = __('messages.form_image_msg_1');
         $imageUploadErrorMsg = __('messages.form_image_msg_2');
         $imageUploadFileTypeMsg = __('messages.form_image_msg_3');
@@ -169,8 +235,7 @@ class AssociationController extends Controller
             ->with('associationFormHeading1', $associationFormHeading1)
 
             ->with('association', $association)
-            ->with('associationMainTagIds', $associationMainTagIds)
-            ->with('associationSecondaryTagString', $associationSecondaryTagString)
+            ->with('associationTags', $associationTags)
             ->with('userId', $userId)
             ->with('title', $title)
             ->with('phone', $phone)
@@ -200,6 +265,8 @@ class AssociationController extends Controller
             ->with('emailPldr', $emailPldr)
             ->with('otherLbl', $otherLbl)
             ->with('otherPldr', $otherPldr)
+            ->with('tagsLbl', $tagsLbl)
+            ->with('tagsPldr', $tagsPldr)
             ->with('imageUploadFileSizeMsg', $imageUploadFileSizeMsg)
             ->with('imageUploadErrorMsg', $imageUploadErrorMsg)
             ->with('imageUploadFileTypeMsg', $imageUploadFileTypeMsg)
@@ -211,9 +278,9 @@ class AssociationController extends Controller
 
     function storeAssociation(Request $request)
     {
-        if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
-            return redirect('404');
-        }
+        // if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
+        //     return redirect('404');
+        // }
 
         
         $mode = 'create';
@@ -233,8 +300,7 @@ class AssociationController extends Controller
         $longitude = $request->input('longitude');
         $address = $request->input('address');
         $inputMapData = $request->input('input_map_data');
-        $servicesOptions = $request->input('services_options');
-        $servicesText = $request->input('services_text');
+        $tags = $request->input('tags');
         $lastInsertedId = null;
 
 
@@ -274,52 +340,6 @@ class AssociationController extends Controller
             ]);
         }
         else {
-            // Tags handling
-            $services = [];
-            $servicesIds = [];
-            $servicesTextArray = [];
-
-            if(!empty($servicesOptions)) {
-                $servicesOptions = array_map(
-                    create_function('$value', 'return (int)$value;'),
-                    $servicesOptions
-                );
-            }
-
-            if(!empty($servicesText)) {
-                $servicesTextArray = explode(',', $servicesText);
-
-                foreach($servicesTextArray as $service) {
-                    $service = trim($service);
-
-                    if(!empty($service)) {
-                        $foundTag = Tag::where('name', $service)->first();
-
-                        if($foundTag) {
-                            array_push($servicesIds, $foundTag->id);
-                        }
-                        else {
-                            $newTag = new Tag([
-                                'name' => $service,
-                                'is_main' => 0,
-                                'created_at' => date('Y-m-d H:i:s')
-                            ]);
-
-                            $newTag->save();
-
-                            array_push($servicesIds, $newTag->id);
-                        }
-                    }
-                }
-            }
-
-            empty($servicesOptions) ?
-                $services = $servicesIds :
-                $services = array_merge($servicesOptions, $servicesIds);
-
-
-
-
             
             if('update' == $mode) {
                 $association = User::find(Auth::id())->association;
@@ -339,8 +359,8 @@ class AssociationController extends Controller
                 $isSaved = $association->save();
             }
             else {
-                $association = new Association(
-                    ['title' => $title,
+                $association = new Association([
+                    'title' => $title,
                     'phone_1' => $phone,
                     'phone_2' => $phone2,
                     'email' => $email,
@@ -352,13 +372,36 @@ class AssociationController extends Controller
                     'is_published' => 0,
                     'input_map_data' => $inputMapData,
                     'created_at' => date('Y-m-d H:i:s')
-                    ]);
+                ]);
 
                 $isSaved = User::find(Auth::id())->association()->save($association);   
             }
 
 
-            $association->tags()->sync($services);
+            
+            $tagIds = array();
+
+            foreach($tags as $tag) {
+                if(preg_match('/^\d+$/', $tag)) {
+                    $tagIds[] = $tag;
+                }
+                else {
+                    $newTag = new Tag([
+                        'name' => mb_strtolower($tag, 'UTF-8'),
+                        'is_main' => 0,
+                        'created_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    $isTagSaved = $newTag->save();
+
+                    if($isTagSaved) {
+                        $tagIds[] = $newTag->id;
+                    }
+                }
+            }
+
+
+            $association->tags()->sync($tagIds);
             
 
             if($isSaved) {

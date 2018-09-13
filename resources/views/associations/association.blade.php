@@ -11,57 +11,77 @@
         <div class="container">
             <div class="association">
                 @if(!empty($association))
-
                 
-                <div class="row">
                     @if(Auth::check() && Auth::id() == $association->user->id)
-                    <div class="col s12 right-align" style="margin-bottom: 10px;">
-                        <a class="waves-effect waves-light btn" href="{{ url('association/register') }}">{{ $editBtn }}</a>
-                        {!! Form::button($deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}
+                    <div class="action-buttons">
+                        <a class="waves-effect waves-light btn" href="{{ url('association/register') }}"><i class="material-icons left">edit</i>{{ $editBtn }}</a>
+                        {!! Form::button('<i class="material-icons left">delete</i>'.$deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}
                     </div>
                     @endif
 
 
-                    <div class="col s12">
-                        <h1 class="h5 association-title">{{ $association->title }}</h1>
+                    <div class="row">
+                        <div class="col s12 l6 xl7">
+                            <h1 class="h5 association-title">{{ $association->title }}</h1>
 
-                        <div class="initiative-info">
-                            @isset($association->address)
-                            <span class="valign-wrapper"><i class="material-icons material-icons-custom-size">location_on</i> {{ $association->address }}</span>
-                            @endisset
+                            @if($isRelated)
+                            <div class="assoc-related">
+                                <div class="chip teal lighten-2 white-text">{{ $heading3 }}</div>
+                            </div>
+                            @endif
 
-                            <ul>
-                                <li class="valign-wrapper">
-                                    <span>
-                                        @isset($association->phone_1)
-                                        <i class="material-icons material-icons-custom-size">local_phone</i> {{ $association->phone_1 }}
-                                        @endisset
-
-                                        @isset($association->phone_2)
-                                        - {{ $association->phone_2 }}
-                                        @endisset
-                                    </span>
-                                </li>
-
-                                @isset($association->email)
-                                <li class="valign-wrapper"><i class="material-icons material-icons-custom-size">email</i> <a href="mailto:{{ $association->email }}" class="assoc-email">{{ $association->email }}</a></li>
+                            <div class="initiative-info">
+                                @isset($association->address)
+                                <span><i class="material-icons material-icons-custom-size">location_on</i> {{ $association->address }}</span>
                                 @endisset
 
-                                @isset($association->website)
-                                @if(!preg_match("~^(?:f|ht)tps?://~i", $association->website))
-                                <li class="valign-wrapper"><i class="material-icons material-icons-custom-size">link</i> <a href="http://{{ $association->website }}" class="assoc-website" target="_blank">{{ $association->website }}</a></li>
-                                @else
-                                <li class="valign-wrapper"><i class="material-icons material-icons-custom-size">link</i> <a href="{{ $association->website }}" class="assoc-website" target="_blank">{{ $association->website }}</a></li>
+                                <ul>
+                                    <li class="valign-wrapper">
+                                        <span>
+                                            @isset($association->phone_1)
+                                            <i class="material-icons material-icons-custom-size">local_phone</i> {{ $association->phone_1 }}
+                                            @endisset
+
+                                            @isset($association->phone_2)
+                                            - {{ $association->phone_2 }}
+                                            @endisset
+                                        </span>
+                                    </li>
+
+                                    @isset($association->email)
+                                    <li class="valign-wrapper"><i class="material-icons material-icons-custom-size">email</i> <a href="mailto:{{ $association->email }}" class="assoc-email">{{ $association->email }}</a></li>
+                                    @endisset
+
+                                    @isset($association->website)
+                                    @if(!preg_match("~^(?:f|ht)tps?://~i", $association->website))
+                                    <li class="valign-wrapper"><i class="material-icons material-icons-custom-size">link</i> <a href="http://{{ $association->website }}" class="assoc-website" target="_blank">{{ $association->website }}</a></li>
+                                    @else
+                                    <li class="valign-wrapper"><i class="material-icons material-icons-custom-size">link</i> <a href="{{ $association->website }}" class="assoc-website" target="_blank">{{ $association->website }}</a></li>
+                                    @endif
+                                    @endisset
+
+                                    <li class="valign-wrapper"><i class="material-icons material-icons-custom-size">access_time</i>{{ $message1 }}: {{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $association->updated_at)->format('l, j M Y H:i') }}</li>
+                                </ul>
+
+
+                                @if(!empty($association->tags))
+                                <div class="tags">
+                                    @foreach ($association->tags as $tag)
+                                    <div class="chip">{{ $tag->name }}</div>
+                                    @endforeach
+                                </div>
                                 @endif
-                                @endisset
-                            </ul>
-
+                            </div>
                         </div>
 
 
-                        <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&lat={{ $association->latitude }}&lon={{ $association->longitude }}&zoom=14&state=view&mode=lite"></iframe>
+                        <div class="col s12 l6 xl5">
+                            <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&lat={{ $association->latitude }}&lon={{ $association->longitude }}&zoom=14&state=view&mode=lite"></iframe>
+                        </div>
+                    </div>
+                    
 
-
+                    <div>
                         @isset($association->description)
                         <div class="initiative-descr">
                             <h4 class="h5"> {{ $heading1 }}</h4>
@@ -80,23 +100,14 @@
                             @endforeach
                         </div>
                         @endif
-
-
-                        @if(!empty($association->tags))
-                        <div class="tags">
-                            @foreach ($association->tags as $tag)
-                            <div class="chip">{{ $tag->name }}</div>
-                            @endforeach
-                        </div>
-                        @endif
                     </div>
-                </div>
 
 
                 @else
                     <p>{{ $noRecordsMsg }}</p>
                 @endif
             </div>
+            
         </div>
 
     </div>

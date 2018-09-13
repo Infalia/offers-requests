@@ -28,23 +28,31 @@ class InitiativeController extends Controller
 
         $pageTitle = __('messages.initiatives_page_title');
         $metaDescription = __('messages.initiatives_page_meta_description');
+        $heading1 = __('messages.initiatives_heading_1');
+        $message1 = __('messages.initiatives_msg_2');
+        $message2 = __('messages.initiatives_msg_3');
         $commentSingularLbl = __('messages.initiative_comment_singular');
         $commentPluralLbl = __('messages.initiative_comment_plural');
         $editBtn = __('messages.form_edit_btn');
         $noRecordsMsg = __('messages.initiatives_msg_1');
         $postBtn = __('messages.initiatives_btn_3');
+        $offerFormBtn = __('messages.initiatives_btn_4');
 
 
-        $initiatives = Initiative::where('is_published', 1)->orderBy('id', 'desc')->get();
+        $initiatives = Initiative::where('is_published', 1)->orderBy('end_date', 'asc')->get();
 
 
         return view('initiatives.initiatives')
             ->with('pageTitle', $pageTitle)
             ->with('metaDescription', $metaDescription)
+            ->with('heading1', $heading1)
+            ->with('message1', $message1)
+            ->with('message2', $message2)
             ->with('commentSingularLbl', $commentSingularLbl)
             ->with('commentPluralLbl', $commentPluralLbl)
             ->with('editBtn', $editBtn)
             ->with('postBtn', $postBtn)
+            ->with('offerFormBtn', $offerFormBtn)
             ->with('noRecordsMsg', $noRecordsMsg)
             ->with('initiatives', $initiatives)
             ->with('user', $user)
@@ -58,6 +66,10 @@ class InitiativeController extends Controller
         try {
             $initiative = Initiative::findOrFail($id);
             $route = Route::current();
+            
+            $endDate = Carbon::parse($initiative->end_date);
+            $now = Carbon::now();
+            $diffLength = $endDate->diffInDays($now);
             
             $pageTitle = $initiative->title.' - '.config('app.name');
             $metaDescription = '';
@@ -75,7 +87,9 @@ class InitiativeController extends Controller
             $commentAddBtn = __('messages.form_comments_post_btn');
             $editBtn = __('messages.form_edit_btn');
             $deleteBtn = __('messages.form_delete_btn');
+            $contactBtn = __('messages.initiatives_btn_5');
             $noRecordsMsg = __('messages.initiatives_msg_1');
+            $message2 = __('messages.initiatives_msg_3');
 
             
             $userImg = env('APP_URL').'/images/commenting-user.png';
@@ -101,11 +115,14 @@ class InitiativeController extends Controller
                 ->with('commentAddBtn', $commentAddBtn)
                 ->with('editBtn', $editBtn)
                 ->with('deleteBtn', $deleteBtn)
+                ->with('contactBtn', $contactBtn)
                 ->with('noRecordsMsg', $noRecordsMsg)
+                ->with('message2', $message2)
                 ->with('initiative', $initiative)
                 ->with('initiativeId', $id)
                 ->with('user', $user)
                 ->with('userImg', $userImg)
+                ->with('diffLength', $diffLength)
                 ->with('routeUri', $route->uri);
 
         } catch(ModelNotFoundException $e) {
@@ -183,7 +200,7 @@ class InitiativeController extends Controller
             $initiative = Initiative::findOrFail($id);
             $initiativeTypes = InitiativeType::all();
             $tags = Tag::all();
-            $initiativeTagIds = array_pluck($initiative->tags->toArray(), 'id');
+            $initiativeTags = array_pluck($initiative->tags->toArray(), 'id');
             $route = Route::current();
 
             $initiativeTypeId = $initiative->initiative_type_id;
@@ -191,6 +208,7 @@ class InitiativeController extends Controller
             $initiativeDescription = $initiative->description;
             $initiativeLatitude = $initiative->latitude;
             $initiativeLongitude = $initiative->longitude;
+            $initiativeAddress = $initiative->address;
 
             $initStartDate = Carbon::createFromFormat('Y-m-d H:i:s', $initiative->start_date);
             $initEndDate = Carbon::createFromFormat('Y-m-d H:i:s', $initiative->end_date);
@@ -233,6 +251,7 @@ class InitiativeController extends Controller
                 ->with('initiativeDescription', $initiativeDescription)
                 ->with('initiativeLatitude', $initiativeLatitude)
                 ->with('initiativeLongitude', $initiativeLongitude)
+                ->with('initiativeAddress', $initiativeAddress)
                 ->with('initiativeStartDate', $initiativeStartDate)
                 ->with('initiativeEndDate', $initiativeEndDate)
                 ->with('typeLbl', $typeLbl)
@@ -254,7 +273,7 @@ class InitiativeController extends Controller
                 ->with('removeImageBtn', $removeImageBtn)
                 ->with('user', $user)
                 ->with('tags', $tags)
-                ->with('initiativeTagIds', $initiativeTagIds)
+                ->with('initiativeTags', $initiativeTags)
                 ->with('saveBtn', $saveBtn)
                 ->with('cancelBtn', $cancelBtn)
                 ->with('routeUri', $route->uri);
@@ -285,7 +304,7 @@ class InitiativeController extends Controller
         $longitude = $request->input('longitude');
         $address = $request->input('address');
         $inputMapData = $request->input('input_map_data');
-        $tags = $request->input('tags');
+        $tagIds = $request->input('tags');
         $lastInsertedId = null;
 
 
@@ -333,56 +352,19 @@ class InitiativeController extends Controller
             ]);
 
 
-            if(!empty($tags)) {
-                $tags = array_map(
-                    create_function('$value', 'return (int)$value;'),
-                    $tags
-                );
-
-                $relatedAssociations = Association::whereHas('tags', function ($query) use ($tags) {
-                    $query->whereIn('id', $tags);
-                })->get();
-            }
-
-
-            if($relatedAssociations->isNotEmpty()) {
-                $relatedAssociationsStr .= '<br><br>';
-                $relatedAssociationsStr .= '<h5 class="h5">'.__('messages.initiative_response_heading_1').'</h5>';
-                $relatedAssociationsStr .= '<p>'.__('messages.initiative_response_subheading_1').'</p>';
-                
-                $relatedAssociationsStr .= '<ul class="collection">';
-
-                foreach($relatedAssociations as $assoc) {
-                    $relatedAssociationsStr .= '<li class="collection-item">';
-                    $relatedAssociationsStr .= '<a href="'.$assoc->website.'" target="_blank">';
-                    $relatedAssociationsStr .= '<span class="title">'.$assoc->title.'</span>';
-                    $relatedAssociationsStr .= '</a>';
-
-                    $relatedAssociationsStr .= '<p class="grey-text text-darken-2">';
-                    $relatedAssociationsStr .= '<span class="valign-wrapper"><i class="material-icons material-icons-custom-size">location_on</i> '.$assoc->address.'</span>';
-                    $relatedAssociationsStr .= '<br>';
-                    $relatedAssociationsStr .= '<span class="valign-wrapper"><i class="material-icons material-icons-custom-size">local_phone</i> '.$assoc->phone_1.'</span>';
-                    $relatedAssociationsStr .= '</p>';
-                    $relatedAssociationsStr .= '</li>';
-                }
-
-                $relatedAssociationsStr .= '</ul>';
-            }
-
 
             $isInserted = User::find(Auth::id())->initiatives()->save($initiative);
 
             if($isInserted) {
                 $lastInsertedId = $initiative->id;
 
-                $initiative->tags()->sync($tags);
+                $initiative->tags()->sync($tagIds);
             }
         }
 
 
         return response()->json([
             'initId' => $lastInsertedId,
-            'relatedAssociations' => $relatedAssociationsStr,
             'message' => __('messages.initiative_form_success.stored'),
             'backlink' => __('messages.initiative_response_backlink').' '.'<a href="'.url('/offers').'" target="_blank">'.__('messages.initiative_response_backlink_text').'</a>.'
         ]);
@@ -401,7 +383,7 @@ class InitiativeController extends Controller
         $longitude = $request->input('longitude');
         $address = $request->input('address');
         $inputMapData = $request->input('input_map_data');
-        $tags = $request->input('tags');
+        $tagIds = $request->input('tags');
 
 
         $messages = [
@@ -447,52 +429,13 @@ class InitiativeController extends Controller
 
 
 
-            if(!empty($tags)) {
-                $tags = array_map(
-                    create_function('$value', 'return (int)$value;'),
-                    $tags
-                );
-
-                $relatedAssociations = Association::whereHas('tags', function ($query) use ($tags) {
-                    $query->whereIn('id', $tags);
-                })->get();
-            }
-
-
-            if($relatedAssociations->isNotEmpty()) {
-                $relatedAssociationsStr .= '<br><br>';
-                $relatedAssociationsStr .= '<h5 class="h5">'.__('messages.initiative_response_heading_1').'</h5>';
-                $relatedAssociationsStr .= '<p>'.__('messages.initiative_response_subheading_1').'</p>';
-                
-                $relatedAssociationsStr .= '<ul class="collection">';
-
-                foreach($relatedAssociations as $assoc) {
-                    $relatedAssociationsStr .= '<li class="collection-item">';
-                    $relatedAssociationsStr .= '<a href="'.$assoc->website.'" target="_blank">';
-                    $relatedAssociationsStr .= '<span class="title">'.$assoc->title.'</span>';
-                    $relatedAssociationsStr .= '</a>';
-
-                    $relatedAssociationsStr .= '<p class="grey-text text-darken-2">';
-                    $relatedAssociationsStr .= '<i class="material-icons material-icons-custom-size">location_on</i> '.$assoc->address;
-                    $relatedAssociationsStr .= '<br>';
-                    $relatedAssociationsStr .= '<i class="material-icons material-icons-custom-size">local_phone</i> '.$assoc->phone_1;
-                    $relatedAssociationsStr .= '</p>';
-                    $relatedAssociationsStr .= '</li>';
-                }
-
-                $relatedAssociationsStr .= '</ul>';
-            }
-
-
-
             $isUpdated = $initiative->save();
-            $initiative->tags()->sync($tags);
+            $initiative->tags()->sync($tagIds);
         }
 
 
         return response()->json([
             'initId' => $initiativeId,
-            'relatedAssociations' => $relatedAssociationsStr,
             'message' => __('messages.initiative_form_success.stored'),
             'backlink' => __('messages.initiative_response_backlink').' '.'<a href="'.url('/offers').'" target="_blank">'.__('messages.initiative_response_backlink_text').'</a>.'
         ]);

@@ -39,7 +39,7 @@ Route::post('offer/ontomap/supporter', 'InitiativeController@supporterOnToMap')-
 /*** Associations ***/
 Route::get('associations', 'AssociationController@associations');
 Route::get('association/{id}/{title}', 'AssociationController@association');
-Route::get('association/register', 'AssociationController@associationForm')->middleware('uwumRoleAuth');
+Route::get('association/register', 'AssociationController@associationForm'); //->middleware('uwumRoleAuth');
 Route::post('association/save', 'AssociationController@storeAssociation')->middleware('uwumAuth');
 Route::post('association/image/upload', 'AssociationController@imageUpload')->middleware('uwumAuth');
 Route::post('association/image/remove', 'AssociationController@imageRemove');

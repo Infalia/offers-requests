@@ -2,6 +2,7 @@
 
 @section('csslibs')
     {!! HTML::style('plugins/dropzone/dropzone.css') !!}
+    {!! HTML::style('plugins/tokenize/tokenize2.min.css') !!}
     {!! HTML::style('plugins/datepicker/datepicker.min.css') !!}
 @endsection
 
@@ -53,8 +54,8 @@
                                 <div class="col s12">
                                     <div class="input-field">
                                         {!! Form::label('tags', $tagsLbl, ['class' => 'active']) !!}
-                                        <select id="tags" multiple>
-                                            <option value="" disabled selected>{{ $tagsPldr }}</option>
+                                        
+                                        <select id="tags" class="hide" multiple>
                                             @foreach($tags as $tag)
                                                 <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                             @endforeach
@@ -185,6 +186,7 @@
 @section('jslibs')
     {!! HTML::script('plugins/datepicker/datepicker.min.js') !!}
     {!! HTML::script('plugins/datepicker/i18n/datepicker.en.js') !!}
+    {!! HTML::script('plugins/tokenize/tokenize2.min.js') !!}
     {!! HTML::script('plugins/dropzone/dropzone.min.js') !!}
 
     <script>
@@ -295,6 +297,17 @@
             document.getElementById("display-name").innerHTML = data.display_name ? data.display_name : 'undefined';
             document.getElementById("address").innerHTML = data.address ? JSON.stringify(data.address) : 'undefined';
         }
+
+
+
+        $('#tags').tokenize2({
+            dataSource: 'select',
+            placeholder: '{{ $tagsPldr }}',
+            tokensAllowCustom: false,
+            searchMinLength: 2,
+            searchFromStart: false,
+            tokensMaxItems: 15
+        });
 
 
 

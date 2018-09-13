@@ -2,6 +2,7 @@
 
 @section('csslibs')
     {!! HTML::style('plugins/dropzone/dropzone.css') !!}
+    {!! HTML::style('plugins/tokenize/tokenize2.min.css') !!}
     {!! HTML::style('plugins/owl/assets/owl.carousel.min.css') !!}
     {!! HTML::style('plugins/owl/assets/owl.theme.green.min.css') !!}
 @endsection
@@ -53,22 +54,14 @@
 
                                 
                                 <div class="col s12">
-                                    <div class="services">
-                                        <h2 class="h6"><u>{{ $servicesHeading }}</u></h2>
-                                        
-                                        @foreach ($tags as $tag)
-                                        <p>
-                                            <input type="checkbox" id="check-{{ $tag->id }}" class="filled-in" name="services_options[]" value="{{ $tag->id }}" @php if(in_array($tag->id, $associationMainTagIds)) { echo 'checked'; } @endphp>
-                                            <label for="check-{{ $tag->id }}">{{ $tag->name }}</label>
-                                        </p>
-                                        @endforeach
+                                    <div class="input-field">
+                                        {!! Form::label('tags', $tagsLbl, ['class' => 'active']) !!}
 
-                                        <br>
-
-                                        <div class="input-field">
-                                            {!! Form::text('services_text', $associationSecondaryTagString, ['id' => 'services_text', 'class' => '', 'placeholder' => $otherPldr, 'maxlength' => '255']) !!}
-                                            {!! Form::label('services_text', $otherLbl, ['class' => 'active']) !!}
-                                        </div>
+                                        <select id="tags" class="hide" multiple>
+                                            @foreach($tags as $tag)
+                                                <option value="{{ $tag->id }}" @if(in_array($tag->id, $associationTags)) {{ 'selected' }} @endif>{{ $tag->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 
@@ -90,8 +83,8 @@
 
                                 <h3 class="h6"><u>Area Info</u></h3>
                                 <ul>
-                                    <li><b>Latitude:</b> <span id="lat"></span></li>
-                                    <li><b>Longitude:</b> <span id="lon"></span></li>
+                                    <li><b>Latitude:</b> <span id="lat">{{ $latitude }}</span></li>
+                                    <li><b>Longitude:</b> <span id="lon">{{ $longitude }}</span></li>
                                     <li><b>Zoom:</b> <span id="zoom"></span></li>
                                 </ul>
                                 
@@ -104,7 +97,7 @@
 
                                 <h4 class="h6"><u>Address</u></h4>
                                 <ul>
-                                    <li><b>Display Name:</b> <span id="display-name"></span></li>
+                                    <li><b>Display Name:</b> <span id="display-name">{{ $address }}</span></li>
                                     <li><b>Address:</b> <span id="address"></span></li>
                                 </ul>
                             </div>
@@ -188,6 +181,7 @@
 @section('jslibs')
     {!! HTML::script('plugins/dropzone/dropzone.min.js') !!}
     {!! HTML::script('plugins/owl/owl.carousel.min.js') !!}
+    {!! HTML::script('plugins/tokenize/tokenize2.min.js') !!}
 
     <script>
         $(document).ready(function() {
@@ -307,6 +301,17 @@
 
 
 
+        $('#tags').tokenize2({
+            dataSource: 'select',
+            placeholder: '{{ $tagsPldr }}',
+            tokensAllowCustom: true,
+            searchMinLength: 2,
+            searchFromStart: false,
+            tokensMaxItems: 15
+        });
+
+
+
         // PC form fields keypress
         $(document).on("keypress", "#title", function(e) {
             if(e.which == 13) {
@@ -330,13 +335,7 @@
             data['longitude'] = $('#lon').text();
             data['address'] = $('#display-name').text();
             data['input_map_data'] = "{'areaId':'"+$('#id').text()+"','areaName':'"+$('#name').text()+"','osmId':'"+$('#osmid').text()+"','type':'"+$('#type').text()+"','zoom':'"+$('#zoom').text()+"','src':'"+$('#src').text()+"','tileId':'"+$('#tileid').text()+"','tile':'"+$('#tile').text()+"','address':'"+$('#address').text()+"'}";
-            data['services_text'] = $('#services_text').val();
-
-            var servicesOptions = [];
-            $('.services :checkbox:checked').each(function(i){
-                servicesOptions[i] = $(this).val();
-            });
-            data['services_options'] = servicesOptions;
+            data['tags'] = $('#tags').val();
 
 
             
