@@ -29,7 +29,8 @@ class AssociationController extends Controller
             $registerIcon = 'edit';
         }
 
-
+        $userTagIds = array();
+        
         if(Auth::check()) {
             $user = User::find(Auth::id());
             $userInitiative = $user->initiatives()
