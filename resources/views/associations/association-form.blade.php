@@ -48,7 +48,7 @@
                                 </div>
 
                                 <div class="input-field col s12">
-                                    {!! Form::textarea('description', $description, ['id' => 'description', 'class' => 'materialize-textarea', 'placeholder' => $descriptionPldr, 'data-length' => 1000]) !!}
+                                    {!! Form::textarea('description', $description, ['id' => 'description', 'class' => 'materialize-textarea', 'placeholder' => $descriptionPldr]) !!}
                                     {!! Form::label('description', $descriptionLbl, ['class' => 'active']) !!}
                                 </div>
 
