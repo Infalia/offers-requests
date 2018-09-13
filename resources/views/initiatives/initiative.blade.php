@@ -51,6 +51,15 @@
                             @isset($initiative->address)
                             <span class="initiative-address">{{ $initiative->address }}</span>
                             @endisset
+
+
+                            @if(!empty($initiative->tags))
+                            <div class="tags">
+                                @foreach ($initiative->tags as $tag)
+                                <div class="chip">{{ $tag->name }}</div>
+                                @endforeach
+                            </div>
+                            @endif
                         </div>
 
                         @isset($initiative->description)
