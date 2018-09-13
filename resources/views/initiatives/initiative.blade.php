@@ -52,6 +52,7 @@
                             <span class="initiative-address">{{ $initiative->address }}</span>
                             @endisset
 
+                            <br>
 
                             @if(!empty($initiative->tags))
                             <div class="tags">
