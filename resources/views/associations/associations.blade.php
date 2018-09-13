@@ -18,6 +18,7 @@
                         @if(!$isAssociation)
                         <div class="card light-blue darken-3">
                             <div class="card-content white-text">
+                                <h5>{{ $heading4 }}</h5>
                                 <span>{{ $message1 }}</span>
                             </div>
 

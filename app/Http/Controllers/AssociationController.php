@@ -46,6 +46,7 @@ class AssociationController extends Controller
         $heading1 = __('messages.associations_heading_1');
         $heading2 = __('messages.associations_heading_2');
         $heading3 = __('messages.associations_heading_3');
+        $heading4 = __('messages.associations_heading_4');
         $message1 = __('messages.associations_msg_2');
         $message2 = __('messages.associations_msg_3');
         $detailsBtn = __('messages.associations_btn_1');
@@ -75,6 +76,7 @@ class AssociationController extends Controller
             ->with('heading1', $heading1)
             ->with('heading2', $heading2)
             ->with('heading3', $heading3)
+            ->with('heading4', $heading4)
             ->with('message1', $message1)
             ->with('message2', $message2)
             ->with('detailsBtn', $detailsBtn)
