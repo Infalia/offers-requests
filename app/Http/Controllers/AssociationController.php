@@ -157,9 +157,9 @@ class AssociationController extends Controller
 
     function associationForm(Request $request)
     {
-        // if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
-        //     return redirect('404');
-        // }
+        if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
+            return redirect('404');
+        }
 
 
 
@@ -280,9 +280,9 @@ class AssociationController extends Controller
 
     function storeAssociation(Request $request)
     {
-        // if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
-        //     return redirect('404');
-        // }
+        if(!$request->session()->exists('association') || 1 != $request->session()->get('association.member_is_role')) {
+            return redirect('404');
+        }
 
         
         $mode = 'create';
