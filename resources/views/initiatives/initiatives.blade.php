@@ -104,7 +104,7 @@
                     </div>
                 </div>
 
-                <iframe class="col m4 input-map" title="input a location" src="{{ env('AREAVIEWER_URL') }}?domain={{ config('app.url') }}&zoom=14&contrast=false"></iframe>
+                <iframe class="col m4 input-map" title="input a location" src="{{ env('AREAVIEWER_URL') }}?domain={{ config('app.url') }}&applications={{ env('OTM_APP_ID') }}&zoom=14&contrast=false"></iframe>
             </div>
         </div>
     </div>
