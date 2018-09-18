@@ -2,6 +2,25 @@
     "mappings":
     [
         {
+            "app_concept": "Association",
+            "ontomap_concept": "Organizational Unit",
+            "properties": 
+            [
+                {
+                    "app_property": "id",
+                    "ontomap_property": "hasID"
+                },
+                {
+                    "app_property": "title",
+                    "ontomap_property": "hasName"
+                },
+                {
+                    "app_property": "description",
+                    "ontomap_property": "hasDescription"
+                }
+            ]
+        },
+        {
             "app_concept": "Offer",
             "ontomap_concept": "Offer",
             "properties": 
