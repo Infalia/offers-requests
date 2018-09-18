@@ -3,7 +3,7 @@
     [
         {
             "app_concept": "Association",
-            "ontomap_concept": "Organizational Unit",
+            "ontomap_concept": "OrganizationalUnit",
             "properties": 
             [
                 {
