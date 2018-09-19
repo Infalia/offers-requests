@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Tag;
-// use App\Initiative;
 use App\Association;
 use App\AssociationImage;
+use App\Helpers\OnToMap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -501,7 +501,172 @@ class AssociationController extends Controller
         return response()->json([
             'initImages' => $initImages
         ]);
-	}
+    }
+    
+    function storeAssociationOnToMap(Request $request)
+	{
+        $associationId = $request->input('initId');
+        $images = $request->input('images');
+
+        $association = Association::find($associationId);
+
+
+        if(!empty($association)) {
+            $concept = 'Association';
+
+            // OnToMap request
+            $eventList = array('event_list' => array(
+                0 => array(
+                    'actor' => $association->user_id,
+                    'timestamp' => round(microtime(true) * 1000),
+                    'activity_type' => 'object_created',
+                    'activity_objects' => array(
+                        0 => array(
+                            'type' => 'Feature',
+                            'geometry' => array(
+                                'type' => 'Point',
+                                'coordinates' => array(floatval($association->longitude), floatval($association->latitude))
+                            ),
+                            'properties' => array(
+                                'id' => $association->id,
+                                'hasType' => $concept,
+                                'title' => $association->title,
+                                'description' => $association->description,
+                                'external_url' => env('APP_URL').'/association/'.$association->id.'/'.str_slug($association->title),
+                                'additionalProperties' => array(
+                                    'input_map_data' => $association->input_map_data,
+                                    'is_published' => $association->is_published,
+                                    'images' => $images
+                                )
+                            )
+                        )
+                    )
+                )
+            ));
+
+            OnToMap::postEvent($eventList);
+        }
+
+
+        return response()->json([
+            'message' => __('messages.association_form_success.stored')
+        ]);
+    }
+
+    function updateAssociationOnToMap($id, Request $request)
+	{
+        $associationId = $id;
+        $images = $request->input('images');
+
+        $association = Association::find($associationId);
+
+        // Get the initiative images and make an array with the new images
+        $associationImages = $association->images->toArray();
+        $newImages = array();
+        
+        if(!empty($associationImages)) {
+            foreach($associationImages as $assocImg) {
+                $newImages[] = $assocImg['url'];
+            }
+        }
+
+
+        if(!empty($initiative)) {
+            $concept = 'Association';
+
+            // OnToMap request
+            $eventList = array('event_list' => array(
+                0 => array(
+                    'actor' => $association->user_id,
+                    'timestamp' => round(microtime(true) * 1000),
+                    'activity_type' => 'object_updated',
+                    'activity_objects' => array(
+                        0 => array(
+                            'type' => 'Feature',
+                            'geometry' => array(
+                                'type' => 'Point',
+                                'coordinates' => array(floatval($association->longitude), floatval($association->latitude))
+                            ),
+                            'properties' => array(
+                                'id' => $association->id,
+                                'hasType' => $concept,
+                                'title' => $association->title,
+                                'description' => $association->description,
+                                'external_url' => env('APP_URL').'/association/'.$association->id.'/'.str_slug($association->title),
+                                'additionalProperties' => array(
+                                    'input_map_data' => $association->input_map_data,
+                                    'is_published' => $association->is_published,
+                                    'images' => $images
+                                )
+                            )
+                        )
+                    )
+                )
+            ));
+
+            OnToMap::postEvent($eventList);
+        }
+
+
+
+        return response()->json([
+            'message' => __('messages.association_form_success.stored')
+        ]);
+    }
+
+    function deleteAssociationOnToMap($id)
+	{
+        $associationId = $id;
+        $association = Association::withTrashed()->find($associationId);
+        $associationImages = $association->images;
+
+
+        if(!empty($association)) {
+            $concept = 'Association';
+
+            // OnToMap request
+            $eventList = array('event_list' => array(
+                0 => array(
+                    'actor' => $association->user_id,
+                    'timestamp' => round(microtime(true) * 1000),
+                    'activity_type' => 'object_removed',
+                    'activity_objects' => array(
+                        0 => array(
+                            'type' => 'Feature',
+                            'geometry' => array(
+                                'type' => 'Point',
+                                'coordinates' => array(floatval($association->longitude), floatval($association->latitude))
+                            ),
+                            'properties' => array(
+                                'id' => $association->id,
+                                'hasType' => $concept,
+                                'title' => $association->title,
+                                'external_url' => env('APP_URL').'/association/'.$association->id.'/'.str_slug($association->title)
+                            )
+                        )
+                    )
+                )
+            ));
+
+            OnToMap::postEvent($eventList);
+
+
+            // Force deleting initiative
+            $isDeleted = $association->forceDelete();
+
+            if($isDeleted) {
+                foreach($associationImages as $image) {
+                    Storage::delete('public/associations/'.$image->name);
+                }
+            }
+        }
+
+
+
+        return response()->json([
+            'message' => __('messages.association_form_success.stored')
+        ]);
+    }
     
     function getFileSize($filePath, $clearStatCache = false)
     {

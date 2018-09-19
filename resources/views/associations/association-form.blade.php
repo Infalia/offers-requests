@@ -387,14 +387,24 @@
                                 imgDropzone.options.autoProcessQueue = false;
 
                                 // If there are images, post to OTM after dropzone uploading is completed
-                                //$.post("{{ url('offer/save/ontomap') }}", { 'assocId': data.assocId, 'images': imagesArray }, function(response){});
+                                @if('create' == $mode)
+                                $.post("{{ url('association/save/ontomap') }}", { 'assocId': data.assocId, 'images': imagesArray }, function(response){});
+                                @else
+                                $.post("{{ url('association/update/ontomap/'.$initiative->id) }}", { }, function(response){});
+                                @endif
                             });
 
 
                             // If there are no images, post to OTM directly
-                            /*if(!hasFiles) {
-                                $.post("{{ url('offer/save/ontomap') }}", { 'assocId': data.assocId, 'images': imagesArray }, function(response){});
-                            }*/
+                            if(!hasFiles) {
+                                @if('create' == $mode)
+                                $.post("{{ url('association/save/ontomap') }}", { 'assocId': data.assocId, 'images': imagesArray }, function(response){});
+                                @endif
+
+                                @if('update' == $mode)
+                                $.post("{{ url('association/update/ontomap/'.$association->id) }}", { }, function(response){});
+                                @endif
+                            }
 
                             $('#response').text(data.message).removeClass('hide');
                             $('.loader-overlay').fadeOut(0);
@@ -435,6 +445,8 @@
                     }
 
                     $('.owl-carousel').trigger('refresh.owl.carousel');
+
+                    $.post("{{ url('association/update/ontomap/'.$association->id) }}", { }, function(response){});
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {}
             });

@@ -40,9 +40,12 @@ Route::post('offer/ontomap/supporter', 'InitiativeController@supporterOnToMap')-
 Route::get('associations', 'AssociationController@associations');
 Route::get('association/{id}/{title}', 'AssociationController@association');
 Route::get('association/register', 'AssociationController@associationForm')->middleware('uwumRoleAuth');
-Route::post('association/save', 'AssociationController@storeAssociation')->middleware('uwumAuth');
-Route::post('association/image/upload', 'AssociationController@imageUpload')->middleware('uwumAuth');
-Route::post('association/image/remove', 'AssociationController@imageRemove');
+Route::post('association/save', 'AssociationController@storeAssociation')->middleware('uwumRoleAuth');
+Route::post('association/image/upload', 'AssociationController@imageUpload')->middleware('uwumRoleAuth');
+Route::post('association/image/remove', 'AssociationController@imageRemove')->middleware('uwumRoleAuth');
+Route::post('association/save/ontomap', 'AssociationController@storeAssociationOnToMap')->middleware('uwumRoleAuth');
+Route::post('association/update/ontomap/{id}', 'AssociationController@updateAssociationOnToMap')->middleware('uwumRoleAuth');
+Route::post('association/delete/ontomap/{id}', 'AssociationController@deleteAssociationOnToMap')->middleware('uwumRoleAuth');
 
 
 /*** UWUM ***/

@@ -600,7 +600,7 @@ class InitiativeController extends Controller
             $concept = 'Offer';
 
             if($initiative->initiative_type_id == 2) {
-                $concept = 'Demand';
+                $concept = 'Request';
             }
 
             // OnToMap request
@@ -626,6 +626,7 @@ class InitiativeController extends Controller
                                     'input_map_data' => $initiative->input_map_data,
                                     'start_date' => $initiative->start_date,
                                     'end_date' => $initiative->end_date,
+                                    'is_published' => $initiative->is_published,
                                     'images' => $images
                                 )
                             )
@@ -646,7 +647,6 @@ class InitiativeController extends Controller
 
     function updateInitiativeOnToMap($id, Request $request)
 	{
-        // $initiativeId = $request->input('initId');
         $initiativeId = $id;
         $images = $request->input('images');
 
@@ -667,7 +667,7 @@ class InitiativeController extends Controller
             $concept = 'Offer';
 
             if($initiative->initiative_type_id == 2) {
-                $concept = 'Demand';
+                $concept = 'Request';
             }
 
             // OnToMap request
