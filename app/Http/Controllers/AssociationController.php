@@ -560,7 +560,7 @@ class AssociationController extends Controller
 
         $association = Association::find($associationId);
 
-        // Get the initiative images and make an array with the new images
+        // Get the association images and make an array with the new images
         $associationImages = $association->images->toArray();
         $newImages = array();
         
@@ -571,7 +571,7 @@ class AssociationController extends Controller
         }
 
 
-        if(!empty($initiative)) {
+        if(!empty($association)) {
             $concept = 'Association';
 
             // OnToMap request
