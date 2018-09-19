@@ -390,7 +390,7 @@
                                 @if('create' == $mode)
                                 $.post("{{ url('association/save/ontomap') }}", { 'assocId': data.assocId, 'images': imagesArray }, function(response){});
                                 @else
-                                $.post("{{ url('association/update/ontomap/'.$initiative->id) }}", { }, function(response){});
+                                $.post("{{ url('association/update/ontomap/'.$association->id) }}", { }, function(response){});
                                 @endif
                             });
 
