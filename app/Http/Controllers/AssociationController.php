@@ -535,7 +535,7 @@ class AssociationController extends Controller
                                 'external_url' => env('APP_URL').'/association/'.$association->id.'/'.str_slug($association->title),
                                 'additionalProperties' => array(
                                     'input_map_data' => $association->input_map_data,
-                                    'is_published' => $association->is_published,
+                                    'is_published' => ($association->is_published ? true : false),
                                     'images' => $images
                                 )
                             )
@@ -595,7 +595,7 @@ class AssociationController extends Controller
                                 'external_url' => env('APP_URL').'/association/'.$association->id.'/'.str_slug($association->title),
                                 'additionalProperties' => array(
                                     'input_map_data' => $association->input_map_data,
-                                    'is_published' => $association->is_published,
+                                    'is_published' => ($association->is_published ? true : false),
                                     'images' => $images
                                 )
                             )
