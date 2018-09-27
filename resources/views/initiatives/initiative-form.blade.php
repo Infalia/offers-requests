@@ -117,23 +117,6 @@
                         </div>
 
 
-                        <!--<div class="col s12">
-                            <div class="dropzone-wrapper">
-                                <div id="init-dropzone" class="dropzone">
-                                    <div class="dz-message">
-                                        <h6 class="h5">Drop images in this area</h6>
-                                        <i class="material-icons">file_upload</i>
-                                    </div>
-
-                                    <div class="fallback">
-                                        <input name="files" type="file" multiple />
-                                    </div>
-
-                                    <div class="dropzone-previews" id="dropzonePreview"></div>
-                                </div>
-                            </div>
-                        </div>-->
-
 
                         <div class="col s12">
                             {{--  {!! Form::button($cancelBtn, array('id' => 'cancel-btn', 'class' => 'waves-effect waves-light btn-flat')) !!}  --}}

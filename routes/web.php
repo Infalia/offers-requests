@@ -34,6 +34,8 @@ Route::post('offer/update/ontomap/{id}', 'InitiativeController@updateInitiativeO
 Route::post('offer/delete/ontomap/{id}', 'InitiativeController@deleteInitiativeOnToMap')->middleware('uwumAuth');
 Route::post('offer/ontomap/comment', 'InitiativeController@storeCommentOnToMap')->middleware('uwumAuth');
 Route::post('offer/ontomap/supporter', 'InitiativeController@supporterOnToMap')->middleware('uwumAuth');
+Route::post('offer/send-message/{id}/{recipientId}', 'InitiativeController@sendMessage')->middleware('uwumAuth');
+Route::get('offer/reply/{id}/{senderId}', 'InitiativeController@replyMessage')->middleware('uwumAuth');
 
 
 /*** Associations ***/

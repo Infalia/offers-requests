@@ -10,8 +10,10 @@ use App\Initiative;
 use App\InitiativeImage;
 use App\Comment;
 use App\Helpers\OnToMap;
+use App\Mail\ContactUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -66,7 +68,8 @@ class InitiativeController extends Controller
         try {
             $initiative = Initiative::findOrFail($id);
             $route = Route::current();
-            
+
+
             $endDate = Carbon::parse($initiative->end_date);
             $now = Carbon::now();
             $diffLength = $endDate->diffInDays($now);
@@ -76,6 +79,13 @@ class InitiativeController extends Controller
             $heading1 = __('messages.initiative_heading_1');
             $commentSingularLbl = __('messages.initiative_comment_singular');
             $commentPluralLbl = __('messages.initiative_comment_plural');
+
+            $contactFormHeading1 = __('messages.initiative_contact_form_heading_1');
+            $contactFormMessageLbl = __('messages.initiative_contact_form_message_lbl');
+            $contactFormMessagePldr = __('messages.initiative_contact_form_message_pldr');
+            $contactFormSendBtn = __('messages.initiative_contact_form_send_btn');
+            $contactMailSuccess = __('messages.initiative_contact_mail_success');
+
             $showBtn = __('messages.initiatives_btn_1');
             $supportBtn = __('messages.initiatives_btn_3');
             $commentAddPldr = __('messages.form_comments_add_pldr');
@@ -104,6 +114,13 @@ class InitiativeController extends Controller
                 ->with('heading1', $heading1)
                 ->with('commentSingularLbl', $commentSingularLbl)
                 ->with('commentPluralLbl', $commentPluralLbl)
+
+                ->with('contactFormHeading1', $contactFormHeading1)
+                ->with('contactFormMessageLbl', $contactFormMessageLbl)
+                ->with('contactFormMessagePldr', $contactFormMessagePldr)
+                ->with('contactFormSendBtn', $contactFormSendBtn)
+                ->with('contactMailSuccess', $contactMailSuccess)
+
                 ->with('showBtn', $showBtn)
                 ->with('supportBtn', $supportBtn)
                 ->with('commentAddPldr', $commentAddPldr)
@@ -437,7 +454,7 @@ class InitiativeController extends Controller
         return response()->json([
             'initId' => $initiativeId,
             'message' => __('messages.initiative_form_success.stored'),
-            'backlink' => __('messages.initiative_response_backlink').' '.'<a href="'.url('/offers').'" target="_blank">'.__('messages.initiative_response_backlink_text').'</a>.'
+            'backlink' => __('messages.initiative_response_backlink').' '.'<a href="'.url('/offers').'">'.__('messages.initiative_response_backlink_text').'</a>.'
         ]);
     }
 
@@ -897,7 +914,82 @@ class InitiativeController extends Controller
         return response()->json([
             'message' => __('messages.initiative_form_success.stored')
         ]);
-	}
+    }
+    
+    function sendMessage($id, $recipientId, Request $request)
+    {
+        $rules = array();
+        $message = $request->input('message');
+
+        $messages = [
+            'required' => __('messages.initiative_form_error.required')
+        ];
+        
+        $rules['message'] = 'required|min:50';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->messages()
+            ]);
+        }
+        else {
+            $senderId = Auth::id();
+            $recipient = User::find($recipientId);
+            $initiative = Initiative::find($id);
+            $replyUrl = url('offer/reply/'.$id.'/'.$senderId);
+
+            Mail::to($recipient->email)
+                ->send(new ContactUser($initiative, $message, $replyUrl));
+
+
+            return response()->json([
+                'message' => __('messages.initiative_contact_mail_success'),
+            ]);
+        }
+    }
+
+    function replyMessage($id, $senderId, Request $request)
+    {
+        $user = User::find(Auth::id());
+
+        try {
+            $initiative = Initiative::findOrFail($id);
+            $sender = User::find($senderId);
+            
+            
+            $pageTitle = __('messages.initiative_reply_heading').' '.$initiative->title.' - '.config('app.name');
+            $metaDescription = '';
+            $contactFormHeading1 = __('messages.initiative_reply_heading').': <b>'.$initiative->title.'</b>';
+            $contactFormHeading2 = __('messages.initiative_contact_form_heading_1');
+            $contactFormMessageLbl = __('messages.initiative_contact_form_message_lbl');
+            $contactFormMessagePldr = __('messages.initiative_contact_form_message_pldr');
+            $contactFormSendBtn = __('messages.initiative_contact_form_send_btn');
+            $contactMailSuccess = __('messages.initiative_contact_mail_success');
+            $noRecordsMsg = __('messages.initiatives_msg_1');
+
+            return view('initiatives.initiative_reply_form')
+                ->with('pageTitle', $pageTitle)
+                ->with('metaDescription', $metaDescription)
+                ->with('contactFormHeading1', $contactFormHeading1)
+                ->with('contactFormHeading2', $contactFormHeading2)
+                ->with('contactFormMessageLbl', $contactFormMessageLbl)
+                ->with('contactFormMessagePldr', $contactFormMessagePldr)
+                ->with('contactFormSendBtn', $contactFormSendBtn)
+                ->with('contactMailSuccess', $contactMailSuccess)
+                ->with('initiative', $initiative)
+                ->with('sender', $sender)
+                ->with('user', $user)
+                ->with('noRecordsMsg', $noRecordsMsg);
+
+
+        } catch(ModelNotFoundException $e) {
+            return redirect(url('404'));
+        } catch (QueryException $e) {
+            return redirect(url('404'));
+        }
+    }
     
 	function getFileSize($filePath, $clearStatCache = false)
     {

@@ -318,11 +318,12 @@ body {
 }
 
 
-.content{
-    padding:70px 0 50px
+.content {
+	min-height: 700px;
+    height: 700px;
+    height: auto!important;
+	padding:70px 0 50px
 }
-
-
 
 
 

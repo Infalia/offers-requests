@@ -38,7 +38,7 @@
                             <div class="chip light-blue white-text">{{ $initiative->initiativeType->name }}</div>
                             @endif
 
-                            @if(1 >= $diffLength)
+                            @if(\Carbon\Carbon::now()->lt(Carbon\Carbon::parse($initiative->end_date)) && 1 >= $diffLength)
                             <div class="chip chip-ends red accent-4 white-text">{{ $message2 }}</div>
                             @endif
                         </p>
@@ -83,10 +83,28 @@
                         @endif
 
 
-                        @if(Auth::check())
+                        @if(Auth::check() && Auth::id() != $initiative->user_id && \Carbon\Carbon::now()->lt(\Carbon\Carbon::parse($initiative->end_date)))
                         <div class="action-buttons">
-                        {!! Form::button('<i class="material-icons left">email</i>'.$contactBtn, array('id' => 'contact-btn', 'class' => 'btn waves-effect waves-light light-blue darken-4', 'onclick' => '')) !!}
+                            {!! Form::button('<i class="material-icons left">email</i>'.$contactBtn, array('id' => 'contact-btn', 'class' => 'btn waves-effect waves-light light-blue darken-4 modal-trigger', 'data-target' => 'contact-modal')) !!}
                         </div>
+
+                        <!-- Modal Structure -->
+                        <div id="contact-modal" class="modal">
+                            <div class="modal-content">
+                                <h4 class="h5">{{ $contactFormHeading1 }}</h4>
+                                <br><br>
+
+                                <div class="input-field">
+                                    {!! Form::textarea('message', '', ['id' => 'message', 'class' => 'materialize-textarea', 'placeholder' => $contactFormMessagePldr]) !!}
+                                    {!! Form::label('message', $contactFormMessageLbl, ['class' => 'active']) !!}
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                {!! Form::button('<i class="material-icons left">send</i>'.$contactFormSendBtn, array('id' => 'send-btn', 'class' => 'waves-effect waves-light btn')) !!}
+                            </div>
+                        </div>
+
                         @endif
                     </div>
 
@@ -131,29 +149,8 @@
     {!! HTML::script('plugins/owl/owl.carousel.min.js') !!}
     {!! HTML::script('plugins/baguettebox/baguetteBox.min.js') !!}
     {!! HTML::script('plugins/jquery-comments/jquery-comments.min.js') !!}
-    {{-- {!! HTML::script('plugins/leaflet/leaflet.js') !!} --}}
+
     <script>
-        // var lat = "{{ $initiative->latitude }}";
-        // var lng = "{{ $initiative->longitude }}";
-        // var title = "{{ htmlspecialchars($initiative->title) }}";
-        // var zoom = 10;
-        // markerImg = "{{ config('app.url') }}/images/marker.png";
-
-
-        // var points = new Array();
-        // var map = L.map('map').setView([lat, lng], zoom);
-        // mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-
-        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        //     attribution: '&copy; ' + mapLink + ' Contributors',
-        //     maxZoom: 18,
-        // }).addTo(map);
-
-        // marker = new L.marker([lat, lng], {})
-        // .bindPopup(title)
-        // .addTo(map);
-
-
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
                 margin: 5,
@@ -189,6 +186,11 @@
 
 
         baguetteBox.run('.owl-carousel', {});
+
+
+        $(document).ready(function() {
+            $('.modal').modal();
+        });
 
 
         $('.comments-container').comments({
@@ -249,13 +251,14 @@
         });
 
 
-        $(document).on("click", "#support-btn", function(e) {
+        $(document).on("click", "#send-btn", function(e) {
             data = new Object();
+            $(this).addClass('disabled');
 
-            data['initiative_id'] = {{ $initiativeId }};
+            data['message'] = $('#message').val();
             
 
-            var url = "{{ url('offer/save/supporter') }}";
+            var url = "{{ url('offer/send-message/'.$initiative->id.'/'.$initiative->user->id) }}";
 
             $.ajax({
                 type: 'POST',
@@ -263,13 +266,30 @@
                 data: data,
                 dataType: 'json',
                 success: function(data) {
-                    $('#init-supporters').html(data.totalSupporters);
+                    if((data.errors)) {
+                        var errorCount = 0;
 
-                    $.post("{{ url('offer/ontomap/supporter') }}", { 'initId': data.initId, 'userAction': data.userAction }, function(response){});
+                        $.each(data.errors, function(key, value) {
+                            if(0 == errorCount) {
+                                Materialize.toast(value, 5000, 'red darken-1')
+                            }
+
+                            errorCount++;
+                        })
+
+                        $(this).removeClass('disabled');
+                    }
+                    else {
+                        Materialize.toast('<?php echo $contactMailSuccess; ?>', 5000, 'green darken-1')
+                        $('#contact-modal').modal('close');
+                    }
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {}
             });
         });
+
+
+        
 
 
         function confirmDelete() {

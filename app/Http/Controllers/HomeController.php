@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     function index(Request $request) {
-        //Auth::loginUsingId(2);
+        //Auth::loginUsingId(3);
         $isAssociation = false;
 
         if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {

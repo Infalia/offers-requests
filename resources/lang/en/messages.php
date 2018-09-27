@@ -110,6 +110,20 @@
         'initiatives_msg_3' => 'ending soon',
         'initiative_comment_singular' => 'comment',
         'initiative_comment_plural' => 'comments',
+        'initiative_contact_form_heading_1' => 'Compose your message',
+        'initiative_contact_form_message_lbl' => 'Message',
+        'initiative_contact_form_message_pldr' => '',
+        'initiative_contact_form_send_btn' => 'Send',
+        'initiative_contact_mail_reply_btn' => 'Reply',
+        'initiative_contact_mail_subject' => 'New message for the :initiative you have posted',
+        'initiative_contact_mail_success' => 'Your message has been successfully sent.',
+        'initiative_contact_mail_failure' => 'Unfortunately, your message has not been sent. Please, try again.',
+        'initiative_contact_mail_panel' => 'You received this mail because someone asked to contact you in relation to your :type [:title](:url). Do not reply to this message. If you like to contact the sender press the reply button at the bottom.',
+
+        /* Initiative form */
+        'initiative_reply_heading' => 'Reply to message for',
+        'initiative_reply_heading' => 'Reply to message',
+
 
         /* Initiative form */
         'initiative_form_page_title' => 'New offer - '.config('app.name'),
