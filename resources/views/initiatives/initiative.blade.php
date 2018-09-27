@@ -253,7 +253,8 @@
 
         $(document).on("click", "#send-btn", function(e) {
             data = new Object();
-            $(this).addClass('disabled');
+            var btn = $(this);
+            btn.addClass('disabled');
 
             data['message'] = $('#message').val();
             
@@ -277,7 +278,7 @@
                             errorCount++;
                         })
 
-                        $(this).removeClass('disabled');
+                        btn.removeClass('disabled');
                     }
                     else {
                         Materialize.toast('<?php echo $contactMailSuccess; ?>', 5000, 'green darken-1')
