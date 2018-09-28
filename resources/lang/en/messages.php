@@ -59,7 +59,7 @@
 
         /*** GENERIC VALIDATION SUCCESS MESSAGES ***/
         'initiative_form_success' => [
-            'stored' => 'Your offer/request has been saved successfully!',
+            'stored' => 'Your offer or request has been saved successfully!',
         ],
         'profile_form_success' => [
             'stored' => 'Your data have been saved successfully!',
@@ -73,6 +73,8 @@
         'switch_on' => 'On',
         'switch_off' => 'Off',
         'close' => 'Close',
+        'back' => 'Back',
+        'back_to_list' => 'Back to list',
 
 
         /*** HOME ***/
@@ -110,6 +112,7 @@
         'initiatives_msg_3' => 'ending soon',
         'initiative_comment_singular' => 'comment',
         'initiative_comment_plural' => 'comments',
+        'initiatives_back_to_list' => 'Back to offers and requests',
         'initiative_contact_form_heading_1' => 'Compose your message',
         'initiative_contact_form_message_lbl' => 'Message',
         'initiative_contact_form_message_pldr' => '',
@@ -152,6 +155,7 @@
         'associations_btn_1' => 'Details',
         'associations_btn_2_1' => 'Register your association',
         'associations_btn_2_2' => 'Edit your association',
+        'associations_back_to_list' => 'Back to associations',
 
         /* Association form */
         'association_form_page_title' => 'New association - '.config('app.name'),

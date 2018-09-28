@@ -13,15 +13,24 @@
         <div class="container">
             <div class="initiative">
                 @if(!empty($initiative))
-
                 
                 <div class="row">
-                    @if(Auth::check() && Auth::id() == $initiative->user->id)
-                    <div class="col s12 right-align action-buttons">
-                        <a class="waves-effect waves-light btn" href="{{ url('offer/edit/'.$initiative->id.'/'.str_slug($initiative->title)) }}"><i class="material-icons left">edit</i>{{ $editBtn }}</a>
-                        {!! Form::button('<i class="material-icons left">delete</i>'.$deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}
+                    <div class="action-buttons">
+                        <div class="row">
+                            <div class="col s6">
+                                <a class="waves-effect waves-light btn grey darken-1" href="{{ url('offers') }}"><i class="material-icons left">arrow_back</i>{{ $backBtn }}</a>
+                            </div>
+
+                            @if(Auth::check() && Auth::id() == $initiative->user->id)
+                            <div class="col s6 right-align">
+                                <a class="waves-effect waves-light btn" href="{{ url('offer/edit/'.$initiative->id.'/'.str_slug($initiative->title)) }}"><i class="material-icons left">edit</i>{{ $editBtn }}</a>
+                                {!! Form::button('<i class="material-icons left">delete</i>'.$deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}
+                            </div>
+                            @endif
+                        </div>
                     </div>
-                    @endif
+
+
 
                     <div class="col s12 l6">
                         <h1 class="h5 initiative-title">{{ $initiative->title }}</h1>

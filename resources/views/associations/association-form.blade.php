@@ -143,9 +143,14 @@
                 {!! Form::close() !!}
 
 
-                <div class="row">
+                <div id="response" class="row hide">
                     <div class="col s12">
-                        <p id="response" class="hide"></p>
+                        <p id="response-text"></p>
+
+                        <br>
+                        <div id="back-link">
+                            <a class="waves-effect waves-light btn grey darken-1" href="{{ url('associations') }}"><i class="material-icons left">arrow_back</i>{{ $backBtn }}</a>
+                        </div>
                     </div>
                 </div>
 
@@ -405,8 +410,10 @@
                                 $.post("{{ url('association/update/ontomap/'.$association->id) }}", { }, function(response){});
                                 @endif
                             }
+                            
 
-                            $('#response').text(data.message).removeClass('hide');
+                            $('#response-text').text(data.message);
+                            $('#response').removeClass('hide');
                             $('.loader-overlay').fadeOut(0);
                         }, 2500);
                     }

@@ -11,13 +11,20 @@
         <div class="container">
             <div class="association">
                 @if(!empty($association))
-                
-                    @if(Auth::check() && Auth::id() == $association->user->id && $isAssociation)
                     <div class="action-buttons">
-                        <a class="waves-effect waves-light btn" href="{{ url('association/register') }}"><i class="material-icons left">edit</i>{{ $editBtn }}</a>
-                        {!! Form::button('<i class="material-icons left">delete</i>'.$deleteBtn, array('id' => 'delete-btn', 'class' => 'btn waves-effect waves-light red darken-1', 'onclick' => 'confirmDelete()')) !!}
+                        <div class="row">
+                            <div class="col s6">
+                                <a class="waves-effect waves-light btn grey darken-1" href="{{ url('associations') }}"><i class="material-icons left">arrow_back</i>{{ $backBtn }}</a>
+                            </div>
+
+                            @if(Auth::check() && Auth::id() == $association->user->id && $isAssociation)
+                            <div class="col s6 right-align">
+                                <a class="waves-effect waves-light btn" href="{{ url('association/register') }}"><i class="material-icons left">edit</i>{{ $editBtn }}</a>
+                            </div>
+                            @endif
+                        </div>
                     </div>
-                    @endif
+                    
 
 
                     <div class="row">

@@ -25,13 +25,18 @@ class AssociationController extends Controller
 
         if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {
             $isAssociation = true;
-            $registerBtn = __('messages.associations_btn_2_2');
-            $registerIcon = 'edit';
+            $user = User::find(Auth::id());
+
+            if($user->association) {
+                $registerBtn = __('messages.associations_btn_2_2');
+                $registerIcon = 'edit';
+            }
         }
 
+        
         $userTagIds = array();
         
-        if(Auth::check()) {
+        if(Auth::check() && !$isAssociation) {
             $user = User::find(Auth::id());
             $userInitiative = $user->initiatives()
                                    ->has('tags')
@@ -42,6 +47,8 @@ class AssociationController extends Controller
                 $userTagIds = array_pluck($userInitiative->tags->toArray(), 'id');
             }
         }
+
+
 
 
         $pageTitle = __('messages.associations_page_title');
@@ -66,6 +73,7 @@ class AssociationController extends Controller
                                            ->get();
 
         $featuredAssociationsIds = array_pluck($featuredAssociations->toArray(), 'id');
+
 
         $associations = Association::where('is_published', 1)
                                    ->whereNotIn('id', $featuredAssociationsIds)
@@ -102,11 +110,23 @@ class AssociationController extends Controller
             $association = Association::findOrFail($id);
             $route = Route::current();
 
+            
             $isAssociation = false;
 
             if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {
                 $isAssociation = true;
+                $user = User::find(Auth::id());
+
+                if($user->association) {
+                    $registerBtn = __('messages.associations_btn_2_2');
+                    $registerIcon = 'edit';
+                }
+                else {
+                    $registerBtn = __('messages.associations_btn_2_1');
+                    $registerIcon = 'add';
+                }
             }
+
 
             $userTagIds = array();
 
@@ -139,6 +159,7 @@ class AssociationController extends Controller
             // $deleteConfirmMsg = __('messages.form_confirm_msg_1');
             $editBtn = __('messages.form_edit_btn');
             $deleteBtn = __('messages.form_delete_btn');
+            $backBtn = __('messages.back_to_list');
             $noRecordsMsg = __('messages.associations_msg_1');
             $message1 = __('messages.associations_msg_4');
 
@@ -151,6 +172,7 @@ class AssociationController extends Controller
                 // ->with('deleteConfirmMsg', $deleteConfirmMsg)
                 ->with('editBtn', $editBtn)
                 ->with('deleteBtn', $deleteBtn)
+                ->with('backBtn', $backBtn)
                 ->with('noRecordsMsg', $noRecordsMsg)
                 ->with('message1', $message1)
                 ->with('association', $association)
@@ -241,6 +263,7 @@ class AssociationController extends Controller
         $removeImageBtn = __('messages.form_remove_btn');
         $saveBtn = __('messages.form_save_btn');
         $cancelBtn = __('messages.form_cancel_btn');
+        $backBtn = __('messages.associations_back_to_list');
 
 
         return view('associations.association-form')
@@ -287,7 +310,8 @@ class AssociationController extends Controller
             ->with('imageUploadFileNumberMsg', $imageUploadFileNumberMsg)
             ->with('removeImageBtn', $removeImageBtn)
             ->with('saveBtn', $saveBtn)
-            ->with('cancelBtn', $cancelBtn);
+            ->with('cancelBtn', $cancelBtn)
+            ->with('backBtn', $backBtn);
     }
 
     function storeAssociation(Request $request)

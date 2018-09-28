@@ -98,6 +98,7 @@ class InitiativeController extends Controller
             $editBtn = __('messages.form_edit_btn');
             $deleteBtn = __('messages.form_delete_btn');
             $contactBtn = __('messages.initiatives_btn_5');
+            $backBtn = __('messages.back_to_list');
             $noRecordsMsg = __('messages.initiatives_msg_1');
             $message2 = __('messages.initiatives_msg_3');
 
@@ -133,6 +134,7 @@ class InitiativeController extends Controller
                 ->with('editBtn', $editBtn)
                 ->with('deleteBtn', $deleteBtn)
                 ->with('contactBtn', $contactBtn)
+                ->with('backBtn', $backBtn)
                 ->with('noRecordsMsg', $noRecordsMsg)
                 ->with('message2', $message2)
                 ->with('initiative', $initiative)
@@ -179,6 +181,7 @@ class InitiativeController extends Controller
         $removeImageBtn = __('messages.form_remove_btn');
         $saveBtn = __('messages.form_save_btn');
         $cancelBtn = __('messages.form_cancel_btn');
+        $backBtn = __('messages.initiatives_back_to_list');
 
 
         return view('initiatives.initiative-form')
@@ -207,6 +210,7 @@ class InitiativeController extends Controller
             ->with('removeImageBtn', $removeImageBtn)
             ->with('saveBtn', $saveBtn)
             ->with('cancelBtn', $cancelBtn)
+            ->with('backBtn', $backBtn)
             ->with('routeUri', $route->uri);
     }
 
@@ -255,6 +259,7 @@ class InitiativeController extends Controller
             $removeImageBtn = __('messages.form_remove_btn');
             $saveBtn = __('messages.form_save_btn');
             $cancelBtn = __('messages.form_cancel_btn');
+            $backBtn = __('messages.initiatives_back_to_list');
 
 
             return view('initiatives.initiative-edit-form')
@@ -293,7 +298,9 @@ class InitiativeController extends Controller
                 ->with('initiativeTags', $initiativeTags)
                 ->with('saveBtn', $saveBtn)
                 ->with('cancelBtn', $cancelBtn)
+                ->with('backBtn', $backBtn)
                 ->with('routeUri', $route->uri);
+                
         } catch(ModelNotFoundException $e) {
             return redirect(url('404'));
         } catch (QueryException $e) {
@@ -383,7 +390,6 @@ class InitiativeController extends Controller
         return response()->json([
             'initId' => $lastInsertedId,
             'message' => __('messages.initiative_form_success.stored'),
-            'backlink' => __('messages.initiative_response_backlink').' '.'<a href="'.url('/offers').'" target="_blank">'.__('messages.initiative_response_backlink_text').'</a>.'
         ]);
     }
 

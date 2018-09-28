@@ -139,12 +139,13 @@
                 {!! Form::close() !!}
 
 
-                <div class="row">
+                <div id="response" class="row hide">
                     <div class="col s12">
-                        <div id="response" class="hide">
-                            <div id="response-msg"></div>
-                            <p id="response-backlink"></p>
-                            {{-- <div id="response-related-assocs"></div> --}}
+                        <p id="response-text"></p>
+
+                        <br>
+                        <div id="back-link">
+                            <a class="waves-effect waves-light btn grey darken-1" href="{{ url('offers') }}"><i class="material-icons left">arrow_back</i>{{ $backBtn }}</a>
                         </div>
                     </div>
                 </div>
@@ -439,9 +440,7 @@
                             }
 
                             $('#response').removeClass('hide');
-                            $('#response-msg').text(data.message);
-                            $('#response-backlink').html(data.backlink);
-                            //$('#response-related-assocs').html(data.relatedAssociations);
+                            $('#response-text').text(data.message);
                             $('.loader-overlay').fadeOut(0);
                         }, 2500);
                     }

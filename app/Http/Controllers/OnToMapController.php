@@ -15,7 +15,7 @@ class OnToMapController extends Controller
 
         $resultArray = json_decode($result, true);
         
-        dd($resultArray);
+        dump($result);
     }
 
     function getMappings()

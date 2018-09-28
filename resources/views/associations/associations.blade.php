@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="card-action">
-                                <a class="white-text" href="{{ url('/association/register') }}">{{ $registerBtn }}</a>
+                                <a class="white-text" href="{{ url(env('UWUM_REGISTER_ASSOC_URL')) }}">{{ $registerBtn }}</a>
                             </div>
                         </div>
                         @endif
