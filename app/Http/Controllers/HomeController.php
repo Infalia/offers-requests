@@ -49,6 +49,6 @@ class HomeController extends Controller
             ->with('link2', $link2)
             ->with('link3', $link3)
             ->with('link4', $link4)
-            ->with('route', $route);
+            ->with('routeUri', $route->uri);
     }
 }

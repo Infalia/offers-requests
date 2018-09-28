@@ -17,7 +17,7 @@
             @include('partials.header')
         @show
 
-        @if ($route != '/')
+        @if ($routeUri != '/')
         @section('navbar')
             @include('partials.navbar')
         @show

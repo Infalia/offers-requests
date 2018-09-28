@@ -19,6 +19,8 @@ class AssociationController extends Controller
 {
     function associations(Request $request)
     {
+        $route = Route::current();
+
         $isAssociation = false;
         $registerBtn = __('messages.associations_btn_2_1');
         $registerIcon = 'add';
@@ -102,7 +104,8 @@ class AssociationController extends Controller
             ->with('associations', $associations)
             ->with('featuredAssociations', $featuredAssociations)
             ->with('isAssociation', $isAssociation)
-            ->with('userTagIds', $userTagIds);
+            ->with('userTagIds', $userTagIds)
+            ->with('routeUri', $route->uri);
     }
 
     function association(Request $request, $id)
@@ -203,7 +206,7 @@ class AssociationController extends Controller
         }
 
 
-
+        $route = Route::current();
         $user = User::find(Auth::id());
         $tags = Tag::all();
         $association = null;
@@ -322,7 +325,8 @@ class AssociationController extends Controller
             ->with('removeImageBtn', $removeImageBtn)
             ->with('saveBtn', $saveBtn)
             ->with('cancelBtn', $cancelBtn)
-            ->with('backBtn', $backBtn);
+            ->with('backBtn', $backBtn)
+            ->with('routeUri', $route->uri);
     }
 
     function storeAssociation(Request $request)

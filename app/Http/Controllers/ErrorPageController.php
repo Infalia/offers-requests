@@ -14,6 +14,8 @@ class ErrorPageController extends Controller
         $user = User::find(Auth::id());
         $route = Route::current();
 
+        $navMenuItem1 = __('messages.navmenu_item_1');
+        $navMenuItem2 = __('messages.navmenu_item_2');
         $sidebarOption1 = __('messages.sidebar_option_1');
         $sidebarOption2 = __('messages.sidebar_option_2');
         $sidebarOption3 = __('messages.sidebar_option_3');
@@ -31,6 +33,8 @@ class ErrorPageController extends Controller
         
 
         return view('error_pages.404')
+            ->with('navMenuItem1', $navMenuItem1)
+            ->with('navMenuItem2', $navMenuItem2)
             ->with('sidebarOption1', $sidebarOption1)
             ->with('sidebarOption2', $sidebarOption2)
             ->with('sidebarOption3', $sidebarOption3)
