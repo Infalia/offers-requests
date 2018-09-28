@@ -49,7 +49,6 @@ class HomeController extends Controller
             ->with('link2', $link2)
             ->with('link3', $link3)
             ->with('link4', $link4)
-            ->with('isAssociation', $isAssociation)
             ->with('route', $route);
     }
 }
