@@ -7,6 +7,10 @@
         '404_text_1' => 'Oops! The Page you requested was not found!',
 
 
+        'navmenu_item_1' => 'Offers & Requests',
+        'navmenu_item_2' => 'Organisations',
+
+
         /*** FORMS ***/
         'form_type_lbl' => 'What is this about',
         'form_type_pldr' => 'Choose type',

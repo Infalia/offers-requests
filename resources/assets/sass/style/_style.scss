@@ -322,10 +322,20 @@ body {
 	min-height: 700px;
     height: 700px;
     height: auto!important;
-	padding:70px 0 50px
+	padding:20px 0 50px
 }
 
 
+
+
+
+/****** NAVBAR ******/
+.navbar-wrapper {
+    padding-top: 43px;
+}
+.navbar-wrapper nav .nav-wrapper ul li a {
+    font-size: 1.1rem;
+}
 
 
 

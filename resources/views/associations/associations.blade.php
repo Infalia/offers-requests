@@ -9,8 +9,12 @@
                     <div class="col m8">
 
                         @if($isAssociation)
-                        <div class="action-buttons right-align">
-                            <a href="{{ url('/association/register') }}" class="btn waves-effect waves-light"><i class="material-icons left">{{ $registerIcon }}</i>{{ $registerBtn }}</a>
+                        <div class="action-buttons">
+                            <div class="row">
+                                <div class="col s12 right-align">
+                                    <a href="{{ url('/association/register') }}" class="btn waves-effect waves-light"><i class="material-icons left">{{ $registerIcon }}</i>{{ $registerBtn }}</a>
+                                </div>
+                            </div>
                         </div>
                         @endif
 

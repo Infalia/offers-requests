@@ -28,6 +28,8 @@ class InitiativeController extends Controller
         $user = User::find(Auth::id());
         $route = Route::current();
 
+        $navMenuItem1 = __('messages.navmenu_item_1');
+        $navMenuItem2 = __('messages.navmenu_item_2');
         $pageTitle = __('messages.initiatives_page_title');
         $metaDescription = __('messages.initiatives_page_meta_description');
         $heading1 = __('messages.initiatives_heading_1');
@@ -45,6 +47,8 @@ class InitiativeController extends Controller
 
 
         return view('initiatives.initiatives')
+            ->with('navMenuItem1', $navMenuItem1)
+            ->with('navMenuItem2', $navMenuItem2)
             ->with('pageTitle', $pageTitle)
             ->with('metaDescription', $metaDescription)
             ->with('heading1', $heading1)
@@ -74,6 +78,8 @@ class InitiativeController extends Controller
             $now = Carbon::now();
             $diffLength = $endDate->diffInDays($now);
             
+            $navMenuItem1 = __('messages.navmenu_item_1');
+            $navMenuItem2 = __('messages.navmenu_item_2');
             $pageTitle = $initiative->title.' - '.config('app.name');
             $metaDescription = '';
             $heading1 = __('messages.initiative_heading_1');
@@ -110,6 +116,8 @@ class InitiativeController extends Controller
             }
 
             return view('initiatives.initiative')
+                ->with('navMenuItem1', $navMenuItem1)
+                ->with('navMenuItem2', $navMenuItem2)
                 ->with('pageTitle', $pageTitle)
                 ->with('metaDescription', $metaDescription)
                 ->with('heading1', $heading1)
@@ -159,6 +167,8 @@ class InitiativeController extends Controller
 
         $initiativeTypes = InitiativeType::all();
 
+        $navMenuItem1 = __('messages.navmenu_item_1');
+        $navMenuItem2 = __('messages.navmenu_item_2');
         $pageTitle = __('messages.initiative_form_page_title');
         $metaDescription = __('messages.initiative_form_page_meta_description');
         $initiativeFormHeading1 = __('messages.initiative_form_heading_1');
@@ -185,6 +195,8 @@ class InitiativeController extends Controller
 
 
         return view('initiatives.initiative-form')
+            ->with('navMenuItem1', $navMenuItem1)
+            ->with('navMenuItem2', $navMenuItem2)
             ->with('pageTitle', $pageTitle)
             ->with('metaDescription', $metaDescription)
             ->with('initiativeFormHeading1', $initiativeFormHeading1)
@@ -237,6 +249,8 @@ class InitiativeController extends Controller
             $initiativeEndDate = $initEndDate->year.', '.($initEndDate->month-1).', '.$initEndDate->day.', '.$initEndDate->hour.', '.$initEndDate->minute.', '.$initEndDate->second;
 
 
+            $navMenuItem1 = __('messages.navmenu_item_1');
+            $navMenuItem2 = __('messages.navmenu_item_2');
             $pageTitle = __('messages.initiative_form_page_title_2');
             $metaDescription = __('messages.initiative_form_page_meta_description');
             $initiativeFormHeading1 = __('messages.initiative_form_heading_2');
@@ -263,6 +277,8 @@ class InitiativeController extends Controller
 
 
             return view('initiatives.initiative-edit-form')
+                ->with('navMenuItem1', $navMenuItem1)
+                ->with('navMenuItem2', $navMenuItem2)
                 ->with('pageTitle', $pageTitle)
                 ->with('metaDescription', $metaDescription)
                 ->with('initiativeFormHeading1', $initiativeFormHeading1)

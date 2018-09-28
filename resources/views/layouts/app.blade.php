@@ -17,6 +17,10 @@
             @include('partials.header')
         @show
 
+        @section('navbar')
+            @include('partials.navbar')
+        @show
+
         @yield('content')
 
         @section('footer')

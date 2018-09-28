@@ -50,7 +50,8 @@ class AssociationController extends Controller
 
 
 
-
+        $navMenuItem1 = __('messages.navmenu_item_1');
+        $navMenuItem2 = __('messages.navmenu_item_2');
         $pageTitle = __('messages.associations_page_title');
         $metaDescription = __('messages.associations_page_meta_description');
         $heading1 = __('messages.associations_heading_1');
@@ -82,6 +83,8 @@ class AssociationController extends Controller
 
 
         return view('associations.associations')
+            ->with('navMenuItem1', $navMenuItem1)
+            ->with('navMenuItem2', $navMenuItem2)
             ->with('pageTitle', $pageTitle)
             ->with('metaDescription', $metaDescription)
             ->with('heading1', $heading1)
@@ -152,6 +155,8 @@ class AssociationController extends Controller
             
 
             
+            $navMenuItem1 = __('messages.navmenu_item_1');
+            $navMenuItem2 = __('messages.navmenu_item_2');
             $pageTitle = $association->title.' - '.config('app.name');
             $metaDescription = '';
             $heading1 = __('messages.associations_heading_2');
@@ -165,6 +170,8 @@ class AssociationController extends Controller
 
 
             return view('associations.association')
+                ->with('navMenuItem1', $navMenuItem1)
+                ->with('navMenuItem2', $navMenuItem2)
                 ->with('pageTitle', $pageTitle)
                 ->with('metaDescription', $metaDescription)
                 ->with('heading1', $heading1)
@@ -236,6 +243,8 @@ class AssociationController extends Controller
         }
 
 
+        $navMenuItem1 = __('messages.navmenu_item_1');
+        $navMenuItem2 = __('messages.navmenu_item_2');
         $pageTitle = __('messages.association_form_page_title');
         $metaDescription = __('messages.association_form_page_meta_description');
         $associationFormHeading1 = __('messages.association_form_heading_1');
@@ -267,6 +276,8 @@ class AssociationController extends Controller
 
 
         return view('associations.association-form')
+            ->with('navMenuItem1', $navMenuItem1)
+            ->with('navMenuItem2', $navMenuItem2)
             ->with('pageTitle', $pageTitle)
             ->with('metaDescription', $metaDescription)
             ->with('associationFormHeading1', $associationFormHeading1)
