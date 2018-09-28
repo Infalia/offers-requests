@@ -17,9 +17,11 @@
             @include('partials.header')
         @show
 
+        @if ($route != '/')
         @section('navbar')
             @include('partials.navbar')
         @show
+        @endif
 
         @yield('content')
 

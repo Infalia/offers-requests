@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class HomeController extends Controller
 {
     function index(Request $request) {
         //Auth::loginUsingId(3);
-        $isAssociation = false;
+        $route = Route::current();
 
-        if($request->session()->exists('association') && 1 == $request->session()->get('association.member_is_role')) {
-            $isAssociation = true;
-        }
-
-
+        $navMenuItem1 = __('messages.navmenu_item_1');
+        $navMenuItem2 = __('messages.navmenu_item_2');
         $pageTitle = __('messages.home_page_title');
         $metaDescription = __('messages.home_page_meta_description');
         $heading1 = __('messages.home_heading_1');
@@ -34,6 +32,8 @@ class HomeController extends Controller
 
 
         return view('home.index')
+            ->with('navMenuItem1', $navMenuItem1)
+            ->with('navMenuItem2', $navMenuItem2)
             ->with('pageTitle', $pageTitle)
             ->with('metaDescription', $metaDescription)
             ->with('heading1', $heading1)
@@ -49,6 +49,7 @@ class HomeController extends Controller
             ->with('link2', $link2)
             ->with('link3', $link3)
             ->with('link4', $link4)
-            ->with('isAssociation', $isAssociation);
+            ->with('isAssociation', $isAssociation)
+            ->with('route', $route);
     }
 }
