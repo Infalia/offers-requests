@@ -134,7 +134,6 @@
                     </div>
 
 
-                    {!! Form::button($cancelBtn, array('id' => 'cancel-btn', 'class' => 'waves-effect waves-light btn-flat')) !!}
                     {!! Form::button($saveBtn, array('id' => 'save-btn', 'class' => 'waves-effect waves-light btn')) !!}
                 {!! Form::close() !!}
 
