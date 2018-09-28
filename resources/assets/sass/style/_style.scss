@@ -634,4 +634,8 @@ body {
 .action-buttons {
     margin-bottom: 20px;
     border-bottom: 1px solid #cccccc;
+
+    &.no-border {
+        border: none;
+    }
 }

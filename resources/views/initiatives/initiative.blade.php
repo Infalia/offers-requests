@@ -93,7 +93,7 @@
 
 
                         @if(Auth::check() && Auth::id() != $initiative->user_id && \Carbon\Carbon::now()->lt(\Carbon\Carbon::parse($initiative->end_date)))
-                        <div class="action-buttons">
+                        <div class="action-buttons no-border">
                             {!! Form::button('<i class="material-icons left">email</i>'.$contactBtn, array('id' => 'contact-btn', 'class' => 'btn waves-effect waves-light light-blue darken-4 modal-trigger', 'data-target' => 'contact-modal')) !!}
                         </div>
 
