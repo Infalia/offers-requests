@@ -229,7 +229,7 @@
             getComments: function(success, error) {
                 $.ajax({
                     type: "get",
-                    url: "{{ url('offer/comments') }}?init_id={{ $initiativeId }}",
+                    url: "{{ url('offer/comments/'.$initiativeId) }}",
                     success: function(commentsArray) {
                         success(commentsArray)
                     },
