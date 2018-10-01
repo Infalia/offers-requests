@@ -318,11 +318,15 @@ body {
 }
 
 
-.content:not(.jquery-comments ul.main li.comment .wrapper .content) {
+.content {
 	min-height: 700px;
     height: 700px;
     height: auto!important;
 	padding:20px 0 50px
+}
+.jquery-comments ul.main li.comment .wrapper .content {
+    min-height: auto!important;
+    height: auto!important;
 }
 
 
