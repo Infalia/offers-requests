@@ -11,7 +11,7 @@
                         <div class="col s12">
                             <div class="row">
                                 <div class="col s12">
-                                    <ul class="tabs tabs-fixed-width">
+                                    <ul class="tabs">
                                         <li class="tab col s6"><a href="#active-inits">{{ $tab1 }}</a></li>
                                         <li class="tab col s6"><a href="#archive-inits">{{ $tab2 }}</a></li>
                                     </ul>
