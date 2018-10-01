@@ -344,7 +344,7 @@
                         $('.loader-overlay').fadeIn(0);
                         
 
-                        setTimeout(function() {
+                        //setTimeout(function() {
                             $('#initiative-form').fadeOut(0);
 
                             imgDropzone.options.params = { 'initId': data.initId };
@@ -370,18 +370,26 @@
 
                                 // If there are images, post to OTM after dropzone uploading is completed
                                 $.post("{{ url('offer/save/ontomap') }}", { 'initId': data.initId, 'images': imagesArray }, function(response){});
+
+                                $('#response').removeClass('hide');
+                                $('#response-text').text(data.message);
+                                $('body, html').animate({scrollTop:0}, 500);
+                                $('.loader-overlay').fadeOut(0);
                             });
 
 
                             // If there are no images, post to OTM directly
                             if(!hasFiles) {
                                 $.post("{{ url('offer/save/ontomap') }}", { 'initId': data.initId, 'images': imagesArray }, function(response){});
+
+                                $('#response').removeClass('hide');
+                                $('#response-text').text(data.message);
+                                $('body, html').animate({scrollTop:0}, 500);
+                                $('.loader-overlay').fadeOut(0);
                             }
 
-                            $('#response').removeClass('hide');
-                            $('#response-text').text(data.message);
-                            $('.loader-overlay').fadeOut(0);
-                        }, 2500);
+                            //$('.loader-overlay').fadeOut(0);
+                        //}, 2500);
                     }
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {}

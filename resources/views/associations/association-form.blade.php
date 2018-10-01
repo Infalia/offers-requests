@@ -367,7 +367,7 @@
                         $('.loader-overlay').fadeIn(0);
                         
 
-                        setTimeout(function() {
+                        //setTimeout(function() {
                             $('#association-form').fadeOut(0);
 
                             imgDropzone.options.params = { 'assocId': data.assocId };
@@ -397,6 +397,11 @@
                                 @else
                                 $.post("{{ url('association/update/ontomap/'.$association->id) }}", { }, function(response){});
                                 @endif
+
+                                $('#response').removeClass('hide');
+                                $('#response-text').text(data.message);
+                                $('body, html').animate({scrollTop:0}, 500);
+                                $('.loader-overlay').fadeOut(0);
                             });
 
 
@@ -409,13 +414,15 @@
                                 @if('update' == $mode)
                                 $.post("{{ url('association/update/ontomap/'.$association->id) }}", { }, function(response){});
                                 @endif
+
+                                $('#response').removeClass('hide');
+                                $('#response-text').text(data.message);
+                                $('body, html').animate({scrollTop:0}, 500);
+                                $('.loader-overlay').fadeOut(0);
                             }
                             
-
-                            $('#response-text').text(data.message);
-                            $('#response').removeClass('hide');
-                            $('.loader-overlay').fadeOut(0);
-                        }, 2500);
+                            //$('.loader-overlay').fadeOut(0);
+                        //}, 2500);
                     }
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown) {}
