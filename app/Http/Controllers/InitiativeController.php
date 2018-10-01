@@ -975,6 +975,7 @@ class InitiativeController extends Controller
     function replyMessage($id, $senderId, Request $request)
     {
         $user = User::find(Auth::id());
+        $route = Route::current();
 
         try {
             $initiative = Initiative::findOrFail($id);
@@ -1003,7 +1004,8 @@ class InitiativeController extends Controller
                 ->with('initiative', $initiative)
                 ->with('sender', $sender)
                 ->with('user', $user)
-                ->with('noRecordsMsg', $noRecordsMsg);
+                ->with('noRecordsMsg', $noRecordsMsg)
+                ->with('routeUri', $route->uri);
 
 
         } catch(ModelNotFoundException $e) {
