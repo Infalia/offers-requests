@@ -324,9 +324,9 @@ class InitiativeController extends Controller
         }
     }
 
-    function initiativeComments(Request $request)
+    function initiativeComments($id)
     {
-        $initiativeId = $request->input('init_id');
+        $initiativeId = $id;
         $comments = Initiative::find($initiativeId)->comments;
 
         return response()->json($comments);

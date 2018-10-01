@@ -20,7 +20,7 @@ Route::get('404', 'ErrorPageController@page404');
 Route::get('offers', 'InitiativeController@initiatives');
 Route::get('offer/new', 'InitiativeController@initiativeForm')->middleware('uwumAuth');
 Route::get('offer/edit/{id}/{title}', 'InitiativeController@initiativeEditForm')->middleware('curUserAuth');
-Route::get('offer/comments', 'InitiativeController@initiativeComments');
+Route::get('offer/comments/{id}', 'InitiativeController@initiativeComments');
 Route::get('offer/{id}/{title}', 'InitiativeController@initiative');
 Route::post('offer/save', 'InitiativeController@storeInitiative')->middleware('uwumAuth');
 Route::post('offer/update/{id}', 'InitiativeController@updateInitiative')->middleware('curUserAuth');
