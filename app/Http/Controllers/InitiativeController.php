@@ -50,12 +50,12 @@ class InitiativeController extends Controller
         $initiatives = Initiative::where('is_published', 1)
                                  ->whereDate('end_date', '>', $now)
                                  ->orderBy('end_date', 'asc')
-                                 ->get();
+                                 ->paginate(20);
 
         $initiativesExpired = Initiative::where('is_published', 1)
                                         ->whereDate('end_date', '<=', $now)
                                         ->orderBy('end_date', 'asc')
-                                        ->get();
+                                        ->paginate(15);
 
 
         return view('initiatives.initiatives')

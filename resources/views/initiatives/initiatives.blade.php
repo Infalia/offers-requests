@@ -51,8 +51,6 @@
                                     </div>
                                 </div>
         
-        
-        
                                 @forelse($initiatives as $initiative)
                                 <div class="col s12 l6 xl4">
                                     <div class="card">
@@ -117,6 +115,8 @@
                                 </div>
                                 @endforelse
                             </div>
+
+                            {{ $initiatives->links() }}
                         </div>
 
                         <div id="archive-inits" class="col s12">
@@ -183,6 +183,8 @@
                                 <p>{{ $noRecordsMsg }}</p>
                             </div>
                             @endforelse
+
+                            {{ $initiativesExpired->links() }}
                         </div>
                     </div>
 
