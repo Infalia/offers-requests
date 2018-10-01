@@ -46,7 +46,7 @@
         
         
                                         <div class="card-action card-action-footer">
-                                            <a href="{{ url('offer/new') }}">{{ $offerFormBtn }}</a>
+                                            <a href="{{ url('offer/new') }}">{{ $postBtn }}</a>
                                         </div>
                                     </div>
                                 </div>
