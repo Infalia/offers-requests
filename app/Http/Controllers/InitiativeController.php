@@ -35,6 +35,8 @@ class InitiativeController extends Controller
         $heading1 = __('messages.initiatives_heading_1');
         $message1 = __('messages.initiatives_msg_2');
         $message2 = __('messages.initiatives_msg_3');
+        $tab1 = __('messages.initiatives_tab_1');
+        $tab2 = __('messages.initiatives_tab_2');
         $commentSingularLbl = __('messages.initiative_comment_singular');
         $commentPluralLbl = __('messages.initiative_comment_plural');
         $editBtn = __('messages.form_edit_btn');
@@ -43,7 +45,17 @@ class InitiativeController extends Controller
         $offerFormBtn = __('messages.initiatives_btn_4');
 
 
-        $initiatives = Initiative::where('is_published', 1)->orderBy('end_date', 'asc')->get();
+        $now = Carbon::now();
+
+        $initiatives = Initiative::where('is_published', 1)
+                                 ->whereDate('end_date', '>', $now)
+                                 ->orderBy('end_date', 'asc')
+                                 ->get();
+
+        $initiativesExpired = Initiative::where('is_published', 1)
+                                        ->whereDate('end_date', '<=', $now)
+                                        ->orderBy('end_date', 'asc')
+                                        ->get();
 
 
         return view('initiatives.initiatives')
@@ -54,6 +66,8 @@ class InitiativeController extends Controller
             ->with('heading1', $heading1)
             ->with('message1', $message1)
             ->with('message2', $message2)
+            ->with('tab1', $tab1)
+            ->with('tab2', $tab2)
             ->with('commentSingularLbl', $commentSingularLbl)
             ->with('commentPluralLbl', $commentPluralLbl)
             ->with('editBtn', $editBtn)
@@ -61,6 +75,7 @@ class InitiativeController extends Controller
             ->with('offerFormBtn', $offerFormBtn)
             ->with('noRecordsMsg', $noRecordsMsg)
             ->with('initiatives', $initiatives)
+            ->with('initiativesExpired', $initiativesExpired)
             ->with('user', $user)
             ->with('routeUri', $route->uri);
     }

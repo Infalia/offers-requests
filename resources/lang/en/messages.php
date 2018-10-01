@@ -114,6 +114,8 @@
         'initiatives_msg_1' => 'There are no offers and requests yet',
         'initiatives_msg_2' => 'Make an offer or request for something that you don\'t need.',
         'initiatives_msg_3' => 'ending soon',
+        'initiatives_tab_1' => 'Active',
+        'initiatives_tab_2' => 'Archived',
         'initiative_comment_singular' => 'comment',
         'initiative_comment_plural' => 'comments',
         'initiatives_back_to_list' => 'Back to offers and requests',
