@@ -318,7 +318,7 @@ body {
 }
 
 
-.content {
+.content:not(.jquery-comments ul.main li.comment .wrapper .content) {
 	min-height: 700px;
     height: 700px;
     height: auto!important;
