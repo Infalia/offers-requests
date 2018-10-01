@@ -982,6 +982,8 @@ class InitiativeController extends Controller
             $sender = User::find($senderId);
             
             
+            $navMenuItem1 = __('messages.navmenu_item_1');
+            $navMenuItem2 = __('messages.navmenu_item_2');
             $pageTitle = __('messages.initiative_reply_heading').' '.$initiative->title.' - '.config('app.name');
             $metaDescription = '';
             $contactFormHeading1 = __('messages.initiative_reply_heading').': <b>'.$initiative->title.'</b>';
@@ -993,6 +995,8 @@ class InitiativeController extends Controller
             $noRecordsMsg = __('messages.initiatives_msg_1');
 
             return view('initiatives.initiative_reply_form')
+                ->with('navMenuItem1', $navMenuItem1)
+                ->with('navMenuItem2', $navMenuItem2)
                 ->with('pageTitle', $pageTitle)
                 ->with('metaDescription', $metaDescription)
                 ->with('contactFormHeading1', $contactFormHeading1)
