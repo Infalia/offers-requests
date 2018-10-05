@@ -53,8 +53,8 @@
                         </p>
 
                         <div class="initiative-info">
-                            @isset($initiative->start_date)
-                            <span class="initiative-start-date">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $initiative->start_date)->format('l, j M Y H:i') }}</span>
+                            @isset($initiative->end_date)
+                            <span class="initiative-start-date">{{ \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $initiative->end_date)->format('l, j M Y H:i') }}</span>
                             @endisset
                             
                             @isset($initiative->address)

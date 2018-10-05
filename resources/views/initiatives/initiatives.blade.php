@@ -148,10 +148,6 @@
                                             $now = \Carbon\Carbon::now();
                                             $diffLength = $endDate->diffInDays($now);
                                         @endphp
-    
-                                        @if(\Carbon\Carbon::now()->lt(\Carbon\Carbon::parse($initiative->end_date)) && 1 >= $diffLength)
-                                        <div class="chip chip-ends red accent-4 white-text">{{ $message2 }}</div>
-                                        @endif
                                     </div>
                                     
     
