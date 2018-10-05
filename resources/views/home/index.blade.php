@@ -24,8 +24,8 @@
                     <div>
                         <h2 class="h5">{{ $text3 }}</h2>
 
-                        <a class="btn waves-effect waves-light light-blue lighten-1" href="{{ url('offer/new') }}">{{ $link2 }}</a>
-                        <span class="info-or">or</span>
+                        {{-- <a class="btn waves-effect waves-light light-blue lighten-1" href="{{ url('offer/new') }}">{{ $link2 }}</a>
+                        <span class="info-or">or</span> --}}
                         <a class="btn waves-effect waves-light light-blue lighten-1" href="{{ url('associations') }}">{{ $link3 }}</a>
 
                         <p>{{ $text4 }}</p>

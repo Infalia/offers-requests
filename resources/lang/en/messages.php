@@ -89,7 +89,7 @@
         'home_heading_3' => 'SERVICES',
         'home_text_1' => 'Would you like to support people in your community by offering your spare items and goods?',
         'home_text_2' => 'Give your wearable clothing, shoes, baby items, books, toys and other goods for free!',
-        'home_text_3' => 'Are you in need of any items and goods?',
+        'home_text_3' => 'Are you looking for a service or organisation in your area?',
         'home_text_4' => 'Somebody near you may be able to help you! Just let them know!',
         'home_text_5' => 'Do you represent a charitable organisation, volunteer group, utility, community centre, children centre youth association or other service?',
         'home_text_6' => 'Register and list your organisation, and make people aware of your aims and services!',
