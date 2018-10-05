@@ -48,14 +48,14 @@ class InitiativeController extends Controller
         $now = Carbon::now();
 
         $initiatives = Initiative::where('is_published', 1)
-                                 ->whereDate('end_date', '>', $now)
+                                 ->whereDate('end_date', '>=', $now)
                                  ->orderBy('end_date', 'asc')
                                  ->paginate(20);
 
         $initiativesExpired = Initiative::where('is_published', 1)
-                                        ->whereDate('end_date', '<=', $now)
+                                        ->whereDate('end_date', '<', $now)
                                         ->orderBy('end_date', 'asc')
-                                        ->paginate(15);
+                                        ->paginate(20);
 
 
         return view('initiatives.initiatives')
@@ -89,8 +89,8 @@ class InitiativeController extends Controller
             $route = Route::current();
 
 
-            $endDate = Carbon::parse($initiative->end_date);
             $now = Carbon::now();
+            $endDate = Carbon::parse($initiative->end_date);            
             $diffLength = $endDate->diffInDays($now);
             
             $navMenuItem1 = __('messages.navmenu_item_1');
