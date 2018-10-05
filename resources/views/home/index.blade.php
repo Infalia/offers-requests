@@ -32,13 +32,13 @@
                     </div>
                 </div>
                     
-                <div class="section valign-wrapper">
+                {{-- <div class="section valign-wrapper">
                     <div>
                         <h3 class="h5">{{ $text5 }}</h3>
                         <a class="btn waves-effect waves-light teal lighten-1" href="{{ url(env('UWUM_REGISTER_ASSOC_URL')) }}">{{ $link4 }}</a>
                         <p>{{ $text6 }}</p>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
