@@ -38,6 +38,9 @@ class UwumController extends Controller
                 $request->session()->forget('association');
             }
         }
+        if($isUwumUserLoggedIn == 'false' && $request->session()->exists('association')) {
+            $request->session()->forget('association');
+        }
         
         return response()->json([
             'action' => $action,
