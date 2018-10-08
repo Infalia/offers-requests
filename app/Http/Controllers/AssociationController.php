@@ -456,11 +456,11 @@ class AssociationController extends Controller
 
 
                 $association->tags()->sync($tagIds);
+            }
                 
 
-                if($isSaved) {
-                    $associationId = $association->id;
-                }
+            if($isSaved) {
+                $associationId = $association->id;
             }
         }
 
