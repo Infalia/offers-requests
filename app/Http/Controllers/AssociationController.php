@@ -453,10 +453,10 @@ class AssociationController extends Controller
                         }
                     }
                 }
-
-
-                $association->tags()->sync($tagIds);
             }
+
+
+            $association->tags()->sync($tagIds);
                 
 
             if($isSaved) {
