@@ -434,31 +434,33 @@ class AssociationController extends Controller
             
             $tagIds = array();
 
-            foreach($tags as $tag) {
-                if(preg_match('/^\d+$/', $tag)) {
-                    $tagIds[] = $tag;
-                }
-                else {
-                    $newTag = new Tag([
-                        'name' => mb_strtolower($tag, 'UTF-8'),
-                        'is_main' => 0,
-                        'created_at' => date('Y-m-d H:i:s')
-                    ]);
+            if(!empty($tags)) {
+                foreach($tags as $tag) {
+                    if(preg_match('/^\d+$/', $tag)) {
+                        $tagIds[] = $tag;
+                    }
+                    else {
+                        $newTag = new Tag([
+                            'name' => mb_strtolower($tag, 'UTF-8'),
+                            'is_main' => 0,
+                            'created_at' => date('Y-m-d H:i:s')
+                        ]);
 
-                    $isTagSaved = $newTag->save();
+                        $isTagSaved = $newTag->save();
 
-                    if($isTagSaved) {
-                        $tagIds[] = $newTag->id;
+                        if($isTagSaved) {
+                            $tagIds[] = $newTag->id;
+                        }
                     }
                 }
-            }
 
 
-            $association->tags()->sync($tagIds);
-            
+                $association->tags()->sync($tagIds);
+                
 
-            if($isSaved) {
-                $associationId = $association->id;
+                if($isSaved) {
+                    $associationId = $association->id;
+                }
             }
         }
 
