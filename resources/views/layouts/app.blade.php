@@ -51,7 +51,7 @@
                     if(xhr.readyState == 4) {
                         if(xhr.status == 200) {
                             var r = JSON.parse(xhr.responseText);
-                            console.log(r);
+                            //console.log(r);
                             callback(r.member_id);
                         } else {
                             // some error occured, add error handling
@@ -82,11 +82,11 @@
                             window.location = "{{ url('login/uwum') }}";
                         }
 
-                        console.log(data);
+                        //console.log(data);
                     },
                     errors: function(XMLHttpRequest, textStatus, errorThrown) {
-                        console.log('UWUM error - Cannot login/logout automatically');
-                        console.log(XMLHttpRequest.status + ' - ' + textStatus + ' - ' + errorThrown);
+                        //console.log('UWUM error - Cannot login/logout automatically');
+                        //console.log(XMLHttpRequest.status + ' - ' + textStatus + ' - ' + errorThrown);
                     }
                 });
             }
@@ -94,13 +94,13 @@
             jQuery(document).ready(function($) {
                 checkWeGovNowSession(function(result) {
                     if (result === undefined) { // note === to distinguish undefined from null
-                        console.log("UWUM: Error during request")
+                        //console.log("UWUM: Error during request")
                         setUwumState(false, 0);
                     } else if (result) {
-                        console.log("UWUM: Web browser claims that a user with the following ID is logged in: " + result);
+                        //console.log("UWUM: Web browser claims that a user with the following ID is logged in: " + result);
                         setUwumState(true, result);
                     } else {
-                        console.log("UWUM: Web browser claims that no user is logged in.");
+                        //console.log("UWUM: Web browser claims that no user is logged in.");
                         setUwumState(false, 0);
                     }
                 });

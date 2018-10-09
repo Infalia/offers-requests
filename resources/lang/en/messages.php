@@ -63,13 +63,13 @@
 
         /*** GENERIC VALIDATION SUCCESS MESSAGES ***/
         'initiative_form_success' => [
-            'stored' => 'Your offer or request has been saved successfully!',
+            'stored' => 'Your post has been saved successfully!',
         ],
         'profile_form_success' => [
             'stored' => 'Your data have been saved successfully!',
         ],
         'association_form_success' => [
-            'stored' => 'Your association data have been saved successfully!',
+            'stored' => 'Your organisation data have been saved successfully!',
         ],
 
 
@@ -83,33 +83,24 @@
 
         /*** HOME ***/
         'home_page_title' => 'Welcome to Offers & Requests',
-        'home_page_meta_description' => 'You can create user groups to do manual labour for community organisations.',
-        'home_heading_1' => 'Offers & Requests',
-        'home_heading_2' => 'GOODS',
-        'home_heading_3' => 'SERVICES',
+        'home_page_meta_description' => 'Give your wearable clothing, shoes, baby items, books, toys and other goods for free!',
+        'home_heading_1' => '',
+        'home_heading_2' => '',
+        'home_heading_3' => '',
         'home_text_1' => 'Would you like to support people in your community by offering your spare items and goods?',
         'home_text_2' => 'Give your wearable clothing, shoes, baby items, books, toys and other goods for free!',
         'home_text_3' => 'Are you looking for a service or organisation in your area?',
         'home_text_4' => 'Somebody near you may be able to help you! Just let them know!',
-        'home_text_5' => 'Do you represent a charitable organisation, volunteer group, utility, community centre, children centre youth association or other service?',
-        'home_text_6' => 'Register and list your organisation, and make people aware of your aims and services!',
         'home_link_1' => 'Offer and help the community',
-        'home_link_2' => 'Make a request to the community',
         'home_link_3' => 'Find a service in your area',
-        'home_link_4' => 'Register your organisation',
-        'home_alert_1' => 'By using WeGovNow\'s services you agree to our cookie use. We and our partners operate globally and use cookies, including for analytics, personalisation and experience',
-        'home_alert_2' => 'Help us get useful information about you and get better suggestions according to your interests.',
-        'home_social_btn' => 'Link your :socialNetwork account',
 
 
         /* INITIATIVES */
-        'initiatives_page_title' => 'Offers/Requests - '.config('app.name'),
+        'initiatives_page_title' => 'Offers & Requests - '.config('app.name'),
         'initiatives_page_meta_description' => '',
         'initiatives_heading_1' => 'Create an offer or request',
-        'initiatives_btn_1' => 'show on map',
         'initiatives_btn_2' => 'Comment',
         'initiatives_btn_3' => 'Post an offer or request',
-        'initiatives_btn_4' => 'Take me there',
         'initiatives_btn_5' => 'Contact person',
         'initiatives_msg_1' => 'There are no offers and requests yet',
         'initiatives_msg_2' => 'Make an offer or request for spare items and goods.',
@@ -129,8 +120,7 @@
         'initiative_contact_mail_failure' => 'Unfortunately, your message has not been sent. Please, try again.',
         'initiative_contact_mail_panel' => 'You received this mail because someone asked to contact you in relation to your :type [:title](:url). Do not reply to this message. If you like to contact the sender press the reply button at the bottom.',
 
-        /* Initiative form */
-        'initiative_reply_heading' => 'Reply to message for',
+        /* Initiative reply form */
         'initiative_reply_heading' => 'Reply to message',
 
 
@@ -141,33 +131,32 @@
         'initiative_heading_1' => 'Details',
         'initiative_form_heading_1' => 'Post a new offer or request',
         'initiative_form_heading_2' => 'Edit offer',
-        'initiative_response_heading_1' => 'Related associations',
-        'initiative_response_subheading_1' => 'According to your selections, we found the associations below that might be suitable for you.',
+        'initiative_response_heading_1' => '',
         'initiative_response_backlink' => 'You can go back to Offers & Requests list clicking',
         'initiative_response_backlink_text' => 'here',
 
 
         /* ASSOCIATIONS */
-        'associations_page_title' => 'Associations - '.config('app.name'),
+        'associations_page_title' => 'Organisations - '.config('app.name'),
         'associations_page_meta_description' => '',
-        'associations_heading_1' => 'Associations',
+        'associations_heading_1' => 'Organisations',
         'associations_heading_2' => 'About us',
         'associations_heading_3' => 'Related',
-        'associations_heading_4' => 'Would you like to include your charitable association in this list and let people aware of your services?',
-        'associations_msg_1' => 'There are no associations yet',
-        'associations_msg_2' => 'You need to register and let the Municipality validate your association. Being part of the WeGovNow community you and your colleagues will be able to use its features on behalf of your association.',
+        'associations_heading_4' => 'Would you like to include your charitable organisation in this list and let people aware of your services?',
+        'associations_msg_1' => 'There are no organisations yet',
+        'associations_msg_2' => 'You need to register and let the Municipality validate your organisation. Being part of the WeGovNow community you and your colleagues will be able to use its features on behalf of your organisation.',
         'associations_msg_3' => 'You are seeing this list item pinned because of your recent offer or request',
         'associations_msg_4' => 'Last updated',
         'associations_btn_1' => 'Details',
-        'associations_btn_2_1' => 'Register your association',
-        'associations_btn_2_2' => 'Edit your association',
-        'associations_back_to_list' => 'Back to associations',
+        'associations_btn_2_1' => 'Register your organisation',
+        'associations_btn_2_2' => 'Edit your organisation',
+        'associations_back_to_list' => 'Back to organisations',
 
         /* Association form */
-        'association_form_page_title' => 'New association - '.config('app.name'),
+        'association_form_page_title' => 'New organisation - '.config('app.name'),
         'association_form_page_meta_description' => '',
-        'association_form_heading_1' => 'Association registration',
-        'association_form_heading_2' => 'Edit association',
+        'association_form_heading_1' => 'Organisations registration',
+        'association_form_heading_2' => 'Edit organisation',
         'association_form_heading_3' => 'Services',
         'association_form_heading_4' => 'Details',
 
