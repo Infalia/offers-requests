@@ -193,7 +193,7 @@
                         @endif
                     </div>
 
-                    <iframe class="col m4 input-map" title="input a location" src="{{ env('AREAVIEWER_URL') }}?domain={{ config('app.url') }}&zoom=14&contrast=false"></iframe>
+                    <iframe class="col m4 input-map" title="input a location" src="{{ env('AREAVIEWER_URL') }}?domain={{ config('app.url') }}&zoom=14&contrast=false&c={{ env('AREAVIEWER_CENTER') }}"></iframe>
                 </div>
 
                 {{ $associations->links('vendor.pagination.default') }}
