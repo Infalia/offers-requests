@@ -263,6 +263,7 @@ class AssociationController extends Controller
         $websitePldr = __('messages.form_website_pldr');
         $emailLbl = __('messages.form_email_lbl');
         $emailPldr = __('messages.form_email_pldr');
+        $addressMsg = __('messages.form_address_msg');
         $otherLbl = __('messages.form_other_lbl');
         $otherPldr = __('messages.form_other_pldr');
         $servicesHeading = __('messages.association_form_heading_3');
@@ -294,6 +295,7 @@ class AssociationController extends Controller
             ->with('email', $email)
             ->with('website', $website)
             ->with('description', $description)
+            ->with('addressMsg', $addressMsg)
             ->with('servicesHeading', $servicesHeading)
             ->with('latitude', $latitude)
             ->with('longitude', $longitude)

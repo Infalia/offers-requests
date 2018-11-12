@@ -30,6 +30,7 @@
         'form_website_pldr' => 'Your website...',
         'form_email_lbl' => 'Email',
         'form_email_pldr' => 'Your email...',
+        'form_address_msg' => 'Please, click on the map to locate the address.',
         'form_other_lbl' => 'Other',
         'form_other_pldr' => 'Write any other option separated by comma...',
         'form_tags_lbl' => 'Tags',
@@ -63,13 +64,13 @@
 
         /*** GENERIC VALIDATION SUCCESS MESSAGES ***/
         'initiative_form_success' => [
-            'stored' => 'Your post has been saved successfully!',
+            'stored' => 'Your post has been saved successfully! It will be published after moderation.',
         ],
         'profile_form_success' => [
             'stored' => 'Your data have been saved successfully!',
         ],
         'association_form_success' => [
-            'stored' => 'Your organisation data have been saved successfully!',
+            'stored' => 'Your organisation data have been saved successfully! It will be published after moderation',
         ],
 
 

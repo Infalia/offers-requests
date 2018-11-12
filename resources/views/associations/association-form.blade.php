@@ -72,6 +72,14 @@
                         <div class="col s12 xl6">
                             <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&mode=lite @if('update' == $mode)&lat={{ $latitude }}&lon={{ $longitude }}&zoom=14&state=edit @endif"></iframe>
                             
+                            @if('create' == $mode)
+                            <div class="card light-blue darken-1">
+                                <div class="card-content white-text">
+                                    <span><i class="material-icons left">info_outline</i>{{ $addressMsg }}</span>
+                                </div>
+                            </div>
+                            @endif
+
                             <div class="helper hide">
                                 <h2 class="h6"><u>Area Info</u></h2>
                                 <ul>

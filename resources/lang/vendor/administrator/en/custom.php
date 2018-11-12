@@ -25,8 +25,8 @@ return [
         ],
     ],
     'associations' => [
-        'title' => 'Associations',
-        'title_singular' => 'Association',
+        'title' => 'Organisations',
+        'title_singular' => 'Organisation',
         'forms' => [
             'user' => 'User',
             'title' => 'Title',

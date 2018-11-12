@@ -68,6 +68,11 @@
    
                         <div class="col s12 xl6">
                             <iframe class="input-map" title="input a location" src="{{ env('INPUTMAP_URL') }}?domain={{ config('app.url') }}&lat=45.07030799911259&lon=7.686824798583985&zoom=14&mode=lite"></iframe>
+                            <div class="card light-blue darken-1">
+                                <div class="card-content white-text">
+                                    <span><i class="material-icons left">info_outline</i>{{ $addressMsg }}</span>
+                                </div>
+                            </div>
                             
                             <div class="helper hide">
                                 <h2 class="h6"><u>Area Info</u></h2>
@@ -287,7 +292,7 @@
         $('#tags').tokenize2({
             dataSource: 'select',
             placeholder: '{{ $tagsPldr }}',
-            tokensAllowCustom: false,
+            tokensAllowCustom: true,
             searchMinLength: 2,
             searchFromStart: false,
             tokensMaxItems: 15
