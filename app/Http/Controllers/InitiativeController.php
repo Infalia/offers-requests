@@ -85,7 +85,7 @@ class InitiativeController extends Controller
         $user = User::find(Auth::id());
 
         try {
-            $initiative = Initiative::findOrFail($id);
+            $initiative = Initiative::where('id', $id)->where('is_published', 1)->firstOrFail();
             $route = Route::current();
 
 
