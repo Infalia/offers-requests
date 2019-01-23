@@ -39,7 +39,7 @@ return [
             'phone_2' => 'Telefono 2',
             'website' => 'Sito web',
             'email' => 'Email',
-            'is_published' => 'Aggiornato il',
+            'is_published' => 'è pubblicato',
         ],
     ],
 ];
