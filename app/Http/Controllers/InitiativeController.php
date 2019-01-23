@@ -85,7 +85,7 @@ class InitiativeController extends Controller
         $user = User::find(Auth::id());
 
         try {
-            $initiative = Initiative::findOrFail($id);
+            $initiative = Initiative::where('id', $id)->where('is_published', 1)->firstOrFail();
             $route = Route::current();
 
 
@@ -197,6 +197,7 @@ class InitiativeController extends Controller
         $endDatePldr = __('messages.form_end_date_pldr');
         $descriptionLbl = __('messages.form_descr_lbl');
         $descriptionPldr = __('messages.form_descr_pldr');
+        $addressMsg = __('messages.form_address_msg');
         $tagsLbl = __('messages.form_tags_lbl');
         $tagsPldr = __('messages.form_tags_pldr');
         $imageUploadFileSizeMsg = __('messages.form_image_msg_1');
@@ -226,6 +227,7 @@ class InitiativeController extends Controller
             ->with('endDatePldr', $endDatePldr)
             ->with('descriptionLbl', $descriptionLbl)
             ->with('descriptionPldr', $descriptionPldr)
+            ->with('addressMsg', $addressMsg)
             ->with('tagsLbl', $tagsLbl)
             ->with('tagsPldr', $tagsPldr)
             ->with('imageUploadFileSizeMsg', $imageUploadFileSizeMsg)
@@ -279,6 +281,7 @@ class InitiativeController extends Controller
             $endDatePldr = __('messages.form_end_date_pldr');
             $descriptionLbl = __('messages.form_descr_lbl');
             $descriptionPldr = __('messages.form_descr_pldr');
+            $addressMsg = __('messages.form_address_msg');
             $tagsLbl = __('messages.form_tags_lbl');
             $tagsPldr = __('messages.form_tags_pldr');
             $imageUploadFileSizeMsg = __('messages.form_image_msg_1');
@@ -317,6 +320,7 @@ class InitiativeController extends Controller
                 ->with('endDatePldr', $endDatePldr)
                 ->with('descriptionLbl', $descriptionLbl)
                 ->with('descriptionPldr', $descriptionPldr)
+                ->with('addressMsg', $addressMsg)
                 ->with('tagsLbl', $tagsLbl)
                 ->with('tagsPldr', $tagsPldr)
                 ->with('imageUploadFileSizeMsg', $imageUploadFileSizeMsg)
@@ -359,7 +363,8 @@ class InitiativeController extends Controller
         $longitude = $request->input('longitude');
         $address = $request->input('address');
         $inputMapData = $request->input('input_map_data');
-        $tagIds = $request->input('tags');
+        //$tagIds = $request->input('tags');
+        $tags = $request->input('tags');
         $lastInsertedId = null;
 
 
@@ -412,6 +417,33 @@ class InitiativeController extends Controller
 
             if($isInserted) {
                 $lastInsertedId = $initiative->id;
+
+
+
+                $tagIds = array();
+                
+                if(!empty($tags)) {
+                    foreach($tags as $tag) {
+                        if(preg_match('/^\d+$/', $tag)) {
+                            $tagIds[] = $tag;
+                        }
+                        else {
+                            $newTag = new Tag([
+                                'name' => mb_strtolower($tag, 'UTF-8'),
+                                'is_main' => 0,
+                                'created_at' => date('Y-m-d H:i:s')
+                            ]);
+    
+                            $isTagSaved = $newTag->save();
+    
+                            if($isTagSaved) {
+                                $tagIds[] = $newTag->id;
+                            }
+                        }
+                    }
+                }
+
+
 
                 $initiative->tags()->sync($tagIds);
             }

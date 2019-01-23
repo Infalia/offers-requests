@@ -30,6 +30,7 @@
         'form_website_pldr' => 'Il tuo sito web...',
         'form_email_lbl' => 'Email',
         'form_email_pldr' => 'La tua email...',
+        'form_address_msg' => 'Imposta l\'indirizzo cliccando sulla mappa.',
         'form_other_lbl' => 'Other',
         'form_other_pldr' => 'Write any other option separated by comma...',
         'form_tags_lbl' => 'Tags',
@@ -63,13 +64,13 @@
 
         /*** GENERIC VALIDATION SUCCESS MESSAGES ***/
         'initiative_form_success' => [
-            'stored' => 'Il tuo post è stato salvato con successo!',
+            'stored' => 'Il tuo post è stato salvato con successo! La tua offerta/richiesta verrà pubblicata dopo la fase di moderazione.',
         ],
         'profile_form_success' => [
             'stored' => 'Il tuo data è stato salvato con successo!',
         ],
         'association_form_success' => [
-            'stored' => 'I dati della tua Associazione sono stati salvati con successo!',
+            'stored' => 'I dati della tua Associazione sono stati salvati con successo! La tua Associazione verrà pubblicata dopo la fase di moderazione.',
         ],
 
 
