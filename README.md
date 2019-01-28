@@ -1,5 +1,8 @@
 # Offers & Requests
-A [WeGovNow](http://wegovnow.eu) basic component.
+
+A [WeGovNow](https://wegovnow.eu) component for supporting people in the community to manage local goods and service requests and offers and for listing valid charitable organisations
+
+This component is the former WeGovNow Trusted Marketplace (without the social networks data collection mechanism)
 
 ## Requirements
 - PHP >= 5.6.4
